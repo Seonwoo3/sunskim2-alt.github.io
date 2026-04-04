@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Classification Tree vs. KNN Analysis</title>
+  <title>B2B SaaS Renewal Prediction Report</title>
   <style>
     body {
       font-family: Arial, Helvetica, sans-serif;
@@ -63,302 +63,200 @@
       color: #555;
       font-size: 14px;
     }
+    .code-note {
+      background: #272822;
+      color: #f8f8f2;
+      padding: 14px;
+      border-radius: 8px;
+      font-family: Consolas, Monaco, monospace;
+      font-size: 14px;
+      white-space: pre-wrap;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
 
-  <h1>Model Comparison Analysis</h1>
-  <p><strong>Topic:</strong> Predicting Customer Renewal in B2B SaaS</p>
+  <h1>B2B SaaS Renewal Prediction Report</h1>
+  <p><strong>Objective:</strong> Build classification models to predict <strong>renewed_next_quarter</strong> and compare KNN with Decision Tree from both performance and business perspectives.</p>
 
   <div class="section">
-    <h2>1. Objective</h2>
+    <h2>Step 1. Data Loading and Preprocessing</h2>
     <div class="box">
-      <p>This analysis compares two models for predicting whether a customer will renew in the next quarter:</p>
       <ul>
-        <li><strong>Classification Tree</strong></li>
-        <li><strong>K-Nearest Neighbors (KNN)</strong></li>
+        <li>The dataset was loaded from a CSV file.</li>
+        <li>The categorical variables <strong>industry</strong>, <strong>region</strong>, <strong>support_level</strong>, and <strong>contract_type</strong> were encoded using <strong>LabelEncoder</strong>.</li>
+        <li><strong>account_id</strong> and the target variable <strong>renewed_next_quarter</strong> were excluded from the feature set.</li>
+        <li>The remaining <strong>20 variables</strong> were used as model inputs.</li>
+        <li>The data was split into <strong>80% training</strong> and <strong>20% testing</strong> sets using <strong>random_state = 42</strong>.</li>
+        <li>For KNN, a <strong>StandardScaler</strong> version was prepared because KNN is distance-based.</li>
+        <li>For Decision Tree, the original unscaled data was used.</li>
       </ul>
-      <p>The goal is to determine which model better matches the actual target values and to explain <strong>why</strong> the result occurred.</p>
+
+      <h3>Data Imbalance Check</h3>
+      <p>The class distribution was close to balanced, so model performance is not heavily biased by class imbalance. This makes the comparison between models more meaningful.</p>
     </div>
   </div>
 
   <div class="section">
-    <h2>2. Dataset Overview</h2>
+    <h2>Step 2. KNN Model Training and Evaluation</h2>
     <div class="box">
-      <p>The dataset contains <strong>10,000 customer accounts</strong> and <strong>22 columns</strong>. The target variable is <strong>renewed_next_quarter</strong>.</p>
+      <p>The KNN model was trained with <strong>KNeighborsClassifier(n_neighbors=5)</strong>.</p>
 
       <table>
         <tr>
-          <th>Class</th>
-          <th>Count</th>
-          <th>Ratio</th>
+          <th>Metric</th>
+          <th>KNN (k=5)</th>
         </tr>
         <tr>
-          <td>1 = Renewed</td>
-          <td>5,138</td>
-          <td>51.38%</td>
+          <td>Accuracy</td>
+          <td>0.7085</td>
         </tr>
         <tr>
-          <td>0 = Churned</td>
-          <td>4,862</td>
-          <td>48.62%</td>
+          <td>Precision</td>
+          <td>0.7111</td>
+        </tr>
+        <tr>
+          <td>Recall</td>
+          <td>0.7085</td>
+        </tr>
+        <tr>
+          <td>F1-Score</td>
+          <td>0.7068</td>
         </tr>
       </table>
 
-      <p>The target variable is relatively balanced. This matters because the model results are less likely to be distorted by class imbalance. Therefore, performance differences between models are more meaningful.</p>
+      <p><strong>Class-level performance:</strong></p>
+      <ul>
+        <li>Class 0: Precision 0.73 / Recall 0.63 / F1 0.68</li>
+        <li>Class 1: Precision 0.69 / Recall 0.78 / F1 0.73</li>
+      </ul>
+
+      <h3>Interpretation</h3>
+      <p>KNN is a <strong>distance-based, non-parametric</strong> method. It predicts customer renewal by comparing each customer to nearby observations in the feature space. Its strength is that it can capture local similarity, but its weakness is that performance may deteriorate in higher-dimensional settings because distances become less informative, which is known as the <strong>curse of dimensionality</strong>.</p>
     </div>
   </div>
 
   <div class="section">
-    <h2>3. Classification Tree Results</h2>
+    <h2>Step 3. Decision Tree Model Training and Evaluation</h2>
     <div class="box">
-      <p>The final selected Classification Tree model produced the following test results:</p>
+      <p>The Decision Tree model was trained with <strong>DecisionTreeClassifier(max_depth=5, random_state=42)</strong>.</p>
 
       <table>
         <tr>
-          <th>Model</th>
-          <th>Test Accuracy</th>
-          <th>Test Precision</th>
-          <th>Test Recall</th>
-          <th>Test F1-score</th>
+          <th>Metric</th>
+          <th>Decision Tree (max_depth=5)</th>
         </tr>
         <tr>
-          <td>Classification Tree</td>
-          <td><strong>0.7033</strong></td>
-          <td><strong>0.7104</strong></td>
-          <td>0.7132</td>
-          <td><strong>0.7118</strong></td>
+          <td>Accuracy</td>
+          <td>0.7195</td>
+        </tr>
+        <tr>
+          <td>Precision</td>
+          <td>0.7225</td>
+        </tr>
+        <tr>
+          <td>Recall</td>
+          <td>0.7195</td>
+        </tr>
+        <tr>
+          <td>F1-Score</td>
+          <td>0.7178</td>
         </tr>
       </table>
 
-      <p>The tree also showed a reasonable gap between training and test performance, suggesting that it generalized better than a strongly overfit model.</p>
+      <p><strong>Class-level performance:</strong></p>
+      <ul>
+        <li>Class 0: Precision 0.75 / Recall 0.64 / F1 0.69</li>
+        <li>Class 1: Precision 0.70 / Recall 0.79 / F1 0.74</li>
+      </ul>
+
+      <h3>Interpretation</h3>
+      <p>Decision Tree is a <strong>rule-based and interpretable</strong> model. It predicts renewal by splitting customers into groups according to explicit conditions. This is useful in a business setting because the model can show which rules separate likely renewals from likely churn. At the same time, trees can overfit if they become too deep. Setting <strong>max_depth = 5</strong> helps control model complexity and improves generalization.</p>
     </div>
   </div>
 
   <div class="section">
-    <h2>4. KNN Results</h2>
-    <div class="box">
-      <p>KNN was tested with multiple K values.</p>
-
-      <table>
-        <tr>
-          <th>Model</th>
-          <th>K</th>
-          <th>Train Accuracy</th>
-          <th>Test Accuracy</th>
-          <th>Test Precision</th>
-          <th>Test Recall</th>
-          <th>Test F1-score</th>
-          <th>Tree Match Rate</th>
-        </tr>
-        <tr>
-          <td>KNN_k=9</td>
-          <td>9</td>
-          <td>0.7723</td>
-          <td><strong>0.6660</strong></td>
-          <td>0.6461</td>
-          <td><strong>0.7735</strong></td>
-          <td><strong>0.7041</strong></td>
-          <td><strong>0.6453</strong></td>
-        </tr>
-        <tr>
-          <td>KNN_k=7</td>
-          <td>7</td>
-          <td>0.7771</td>
-          <td>0.6580</td>
-          <td>0.6413</td>
-          <td>0.7586</td>
-          <td>0.6950</td>
-          <td>0.6327</td>
-        </tr>
-        <tr>
-          <td>KNN_k=5</td>
-          <td>5</td>
-          <td>0.7909</td>
-          <td>0.6597</td>
-          <td>0.6448</td>
-          <td>0.7515</td>
-          <td>0.6940</td>
-          <td>0.6230</td>
-        </tr>
-        <tr>
-          <td>KNN_k=3</td>
-          <td>3</td>
-          <td>0.8271</td>
-          <td>0.6367</td>
-          <td>0.6316</td>
-          <td>0.7021</td>
-          <td>0.6650</td>
-          <td>0.6120</td>
-        </tr>
-        <tr>
-          <td>KNN_k=1</td>
-          <td>1</td>
-          <td>1.0000</td>
-          <td>0.6227</td>
-          <td>0.6225</td>
-          <td>0.6742</td>
-          <td>0.6474</td>
-          <td>0.6040</td>
-        </tr>
-      </table>
-
-      <p>The best KNN model was <span class="highlight">K = 9</span>. However, even the best KNN result did not outperform the Classification Tree.</p>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>5. Final Comparison</h2>
+    <h2>Step 4. Apple-to-Apple Comparison and Final Interpretation</h2>
     <div class="box">
       <table>
         <tr>
-          <th>Model</th>
-          <th>Test Accuracy</th>
-          <th>Test Precision</th>
-          <th>Test Recall</th>
-          <th>Test F1-score</th>
+          <th>Metric</th>
+          <th>KNN (k=5)</th>
+          <th>Decision Tree (max_depth=5)</th>
+          <th>Better Model</th>
         </tr>
         <tr>
-          <td><strong>Classification Tree</strong></td>
-          <td><strong>0.7033</strong></td>
-          <td><strong>0.7104</strong></td>
-          <td>0.7132</td>
-          <td><strong>0.7118</strong></td>
+          <td>Accuracy</td>
+          <td>0.7085</td>
+          <td><strong>0.7195</strong></td>
+          <td>Decision Tree</td>
         </tr>
         <tr>
-          <td>KNN (best, K=9)</td>
-          <td>0.6660</td>
-          <td>0.6461</td>
-          <td><strong>0.7735</strong></td>
-          <td>0.7041</td>
+          <td>Precision</td>
+          <td>0.7111</td>
+          <td><strong>0.7225</strong></td>
+          <td>Decision Tree</td>
+        </tr>
+        <tr>
+          <td>Recall</td>
+          <td>0.7085</td>
+          <td><strong>0.7195</strong></td>
+          <td>Decision Tree</td>
+        </tr>
+        <tr>
+          <td>F1-Score</td>
+          <td>0.7068</td>
+          <td><strong>0.7178</strong></td>
+          <td>Decision Tree</td>
         </tr>
       </table>
 
       <div class="conclusion">
-        <p><strong>Final conclusion:</strong> The <strong>Classification Tree</strong> won overall.</p>
+        <p><strong>Overall conclusion:</strong> The <strong>Decision Tree</strong> is superior across all four key evaluation metrics.</p>
       </div>
 
-      <p>The tree achieved better <strong>Accuracy</strong>, <strong>Precision</strong>, and <strong>F1-score</strong>. KNN only performed better in <strong>Recall</strong>.</p>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>6. Why Did the Classification Tree Win?</h2>
-    <div class="box">
-      <h3>6.1 Strong threshold-based structure</h3>
-      <p>The tree model identified clear threshold-based rules, especially through variables such as:</p>
+      <h3>Final Reporting Points</h3>
       <ul>
-        <li><strong>usage_drop_pct_30d</strong></li>
-        <li><strong>tenure_months</strong></li>
-        <li><strong>nps_score</strong></li>
-        <li><strong>feature_adoption_score</strong></li>
-      </ul>
+        <li><strong>Numerical comparison</strong>
+          <ul>
+            <li>Decision Tree outperformed KNN in Accuracy, Precision, Recall, and F1-Score.</li>
+            <li>The performance gap is not extremely large, but it is consistent across all evaluation metrics.</li>
+            <li>This consistency suggests that Decision Tree is more reliable overall for this dataset.</li>
+          </ul>
+        </li>
 
-      <p>These are not random variables. They reflect real business logic:</p>
-      <ul>
-        <li>Usage drop indicates disengagement.</li>
-        <li>Tenure reflects relationship maturity.</li>
-        <li>NPS captures customer satisfaction.</li>
-        <li>Feature adoption reflects product stickiness.</li>
-      </ul>
+        <li><strong>Business interpretation: Recall vs. F1-score</strong>
+          <ul>
+            <li>In a customer renewal prediction problem, <strong>Recall</strong> is especially important when the company wants to identify as many customers at risk of non-renewal as possible.</li>
+            <li>If the model misses a true non-renewal customer (<strong>False Negative</strong>), the company may fail to intervene in time, which can directly lead to lost revenue.</li>
+            <li>However, focusing only on Recall may increase unnecessary interventions on customers who would have renewed anyway (<strong>False Positive</strong>), which wastes customer success resources.</li>
+            <li>Therefore, <strong>F1-score</strong> is a more balanced metric for model selection because it captures the trade-off between Precision and Recall.</li>
+          </ul>
+        </li>
 
-      <h3>6.2 Better fit for non-linear segmentation</h3>
-      <p>The Classification Tree can naturally capture nonlinear if-then rules. For example, renewal may depend on one variable only when another variable crosses a certain threshold. A tree can represent this directly, but KNN cannot explain it in the same structured way.</p>
-
-      <h3>6.3 More suitable for business interpretation</h3>
-      <p>The tree does not only predict outcomes; it also explains <strong>why</strong> customers are classified as high-risk or low-risk. That makes it more useful for business action and customer success strategy.</p>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>7. Why Was K = 9 the Best KNN?</h2>
-    <div class="box">
-      <h3>7.1 K = 1 clearly overfit</h3>
-      <p>K = 1 produced a training accuracy of <strong>1.0000</strong>, which means the model memorized the training data. However, its test performance was much lower. This is a classic overfitting pattern.</p>
-
-      <h3>7.2 Larger K reduced noise</h3>
-      <p>As K increased, the model became less sensitive to individual noisy observations. This improved test performance.</p>
-
-      <h3>7.3 K = 9 gave the best balance</h3>
-      <p>K = 9 produced the strongest KNN result. It reduced noise enough to improve generalization, but not so much that the prediction became overly averaged.</p>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>8. Why Did KNN Still Lose?</h2>
-    <div class="box">
-      <p>KNN is a distance-based model. It asks: <em>Which customers are similar to each other?</em></p>
-      <p>The Classification Tree asks: <em>What rules separate renewal from churn?</em></p>
-
-      <p>This dataset appears to be driven more by <strong>rule-based decision boundaries</strong> than by simple customer similarity. In other words, it is more important to know whether a customer crosses a critical threshold than whether that customer is close to another customer in feature space.</p>
-
-      <p>That is why KNN improved with better K selection, but still failed to surpass the tree.</p>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>9. Important Variables from the Tree</h2>
-    <div class="box">
-      <table>
-        <tr>
-          <th>Variable</th>
-          <th>Importance</th>
-        </tr>
-        <tr>
-          <td>usage_drop_pct_30d</td>
-          <td>0.3520</td>
-        </tr>
-        <tr>
-          <td>tenure_months</td>
-          <td>0.1886</td>
-        </tr>
-        <tr>
-          <td>nps_score</td>
-          <td>0.1737</td>
-        </tr>
-        <tr>
-          <td>feature_adoption_score</td>
-          <td>0.1075</td>
-        </tr>
-        <tr>
-          <td>last_qbr_days</td>
-          <td>0.0733</td>
-        </tr>
-        <tr>
-          <td>payment_delay_days</td>
-          <td>0.0595</td>
-        </tr>
-      </table>
-
-      <p>These results are highly interpretable from a business perspective. They suggest that churn or renewal is mostly influenced by changes in usage, relationship duration, satisfaction, engagement depth, and timing of customer interaction.</p>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>10. Which Metric Matters Most?</h2>
-    <div class="box">
-      <p>If the company wants to identify as many at-risk customers as possible, <strong>Recall</strong> is important because missing a true churn-risk customer is costly.</p>
-
-      <p>However, for overall model selection, <strong>F1-score</strong> is more balanced because it considers both Precision and Recall. In this comparison, the final decision was made based on the overall balance of performance, and the Classification Tree had the best <strong>F1-score</strong>.</p>
-
-      <p>Therefore:</p>
-      <ul>
-        <li><strong>Business intervention perspective:</strong> Recall matters a lot</li>
-        <li><strong>Overall model selection perspective:</strong> F1-score is the most reasonable summary metric</li>
+        <li><strong>Model recommendation</strong>
+          <ul>
+            <li>From a performance perspective, the <strong>Decision Tree</strong> is the stronger model.</li>
+            <li>From an interpretability perspective, the Decision Tree is also preferable because its rule-based structure is easier to explain to management and operational teams.</li>
+            <li>Therefore, the final recommendation is to adopt the <strong>Decision Tree</strong> as the primary model for customer renewal prediction in this B2B SaaS context.</li>
+            <li>KNN can still be used as a benchmark model, but it is less suitable as the main business decision-support tool.</li>
+          </ul>
+        </li>
       </ul>
     </div>
   </div>
 
   <div class="section">
-    <h2>11. Final Interpretation</h2>
+    <h2>Executive Summary</h2>
     <div class="box">
-      <p>The Classification Tree clearly outperformed KNN overall. This means the renewal problem in this dataset is better explained by <strong>structured business rules</strong> than by <strong>customer similarity</strong>.</p>
-
-      <p>Put differently, the data suggests that renewal depends on whether customers cross important thresholds, not simply on whether they resemble nearby observations.</p>
-
-      <div class="conclusion">
-        <p><strong>Final answer:</strong> Yes, the <strong>Classification Tree</strong> won.</p>
-      </div>
+      <ul>
+        <li>The dataset was preprocessed appropriately, with categorical variables encoded and separate scaled and unscaled versions prepared for KNN and Decision Tree.</li>
+        <li>KNN showed reasonable predictive ability, but it remained weaker than the Decision Tree on all main metrics.</li>
+        <li>Decision Tree achieved the best overall balance of predictive performance and explainability.</li>
+        <li>For this business problem, <strong>F1-score</strong> is the most practical summary metric for final model comparison, while <strong>Recall</strong> remains strategically important because missing at-risk customers is costly.</li>
+        <li>The recommended final model is <strong>Decision Tree</strong>.</li>
+      </ul>
     </div>
   </div>
 
