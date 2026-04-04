@@ -14,6 +14,7 @@
       --soft-blue: #eef5fb;
       --soft-yellow: #fff8e8;
       --soft-red: #fdeeee;
+      --soft-gray: #f7f9fc;
       --text: #1f2937;
       --subtext: #5b6676;
       --border: #d9e2ec;
@@ -126,7 +127,7 @@
 
     .grid-2 {
       display: grid;
-      grid-template-columns: 1.2fr 1fr;
+      grid-template-columns: 1.15fr 1fr;
       gap: 22px;
     }
 
@@ -230,6 +231,18 @@
 
     .summary-banner strong {
       color: #177245;
+    }
+
+    .risk-banner {
+      border-left: 6px solid #d97706;
+      background: linear-gradient(90deg, #fff8e8 0%, #ffffff 100%);
+      border-radius: 16px;
+      padding: 18px 20px;
+      margin-top: 16px;
+    }
+
+    .risk-banner strong {
+      color: #9a6700;
     }
 
     table {
@@ -339,9 +352,9 @@
     <section class="hero">
       <h1>B2B SaaS Renewal Prediction Report</h1>
       <p>
-        Executive summary of model development, parameter tuning, and model comparison for predicting
-        <strong>renewed_next_quarter</strong>. The final comparison was based on the latest raw output,
-        with <strong>KNN tested across odd K values from 1 to 29</strong> and compared against a tuned
+        Executive summary of model tuning and comparison for predicting
+        <strong>renewed_next_quarter</strong>. The final evaluation used the latest raw output,
+        with <strong>KNN tested on all odd K values from 1 to 29</strong> and compared with a tuned
         <strong>Classification Tree</strong>.
       </p>
 
@@ -357,14 +370,14 @@
           <div class="desc">Renewed vs. non-renewed ratio</div>
         </div>
         <div class="hero-stat">
-          <div class="label">Final Winner</div>
+          <div class="label">Top Predictive Model</div>
           <div class="value">KNN (K=29)</div>
-          <div class="desc">Best model by test F1-score</div>
+          <div class="desc">Best by test F1-score</div>
         </div>
         <div class="hero-stat">
-          <div class="label">Best Tree</div>
-          <div class="value">Depth 7</div>
-          <div class="desc">Top-performing tree configuration</div>
+          <div class="label">Top Explainable Model</div>
+          <div class="value">Tree</div>
+          <div class="desc">Best for rule interpretation</div>
         </div>
       </div>
     </section>
@@ -424,7 +437,7 @@
           <div class="grid-3">
             <div class="mini-card">
               <h4>Class Balance</h4>
-              <p>Close to even split, so accuracy and F1 are meaningful.</p>
+              <p>Balanced enough that model differences are meaningful.</p>
             </div>
             <div class="mini-card">
               <h4>Feature Space</h4>
@@ -432,15 +445,15 @@
             </div>
             <div class="mini-card">
               <h4>Scaling Strategy</h4>
-              <p>KNN scaled, Tree not scaled, matching algorithm needs.</p>
+              <p>KNN scaled, Tree not scaled, matching algorithm design.</p>
             </div>
             <div class="mini-card">
               <h4>Train Size</h4>
-              <p>7,000 observations for model fitting.</p>
+              <p>7,000 observations for fitting.</p>
             </div>
             <div class="mini-card">
               <h4>Test Size</h4>
-              <p>3,000 observations for out-of-sample evaluation.</p>
+              <p>3,000 observations for final evaluation.</p>
             </div>
             <div class="mini-card">
               <h4>Comparison Logic</h4>
@@ -451,7 +464,7 @@
 
         <div class="summary-banner">
           <strong>Executive note:</strong> The target distribution is balanced enough that performance
-          differences are likely driven by actual modeling quality rather than class imbalance.
+          differences are likely caused by modeling quality rather than class imbalance.
         </div>
       </div>
     </section>
@@ -540,20 +553,19 @@
         </div>
 
         <div class="note">
-          <strong>Interpretation:</strong> The tree suggests renewal is strongly driven by behavioral
-          decline, tenure, customer sentiment, adoption depth, and account management cadence.
-          This is highly useful from an explainability standpoint.
+          <strong>Interpretation:</strong> The tree suggests renewal is strongly driven by usage decline,
+          tenure, customer sentiment, adoption depth, and account management cadence. Its main value lies
+          in explanation and action design, not in having the top score.
         </div>
       </div>
     </section>
 
     <section class="section">
       <div class="card">
-        <h2>3. KNN Tuning Results <span class="tag green">Best Performing Model</span></h2>
+        <h2>3. KNN Tuning Results <span class="tag green">Best Predictive Model</span></h2>
         <p class="subtle">
-          KNN was tested using all odd K values from <strong>1 to 29</strong>. Performance improved
-          steadily as K increased, indicating that a broader neighborhood produced better generalization
-          than small-K local fitting.
+          KNN was tested using all odd K values from <strong>1 to 29</strong>. Performance generally improved
+          as K increased, suggesting that a broader neighborhood reduced sensitivity to noise and outliers.
         </p>
 
         <div class="kpi">
@@ -643,12 +655,18 @@
         </table>
 
         <div class="bullet-box">
-          <h3>KNN Pattern Interpretation</h3>
+          <h3>Why Larger K Worked Better</h3>
           <ul>
-            <li>Small K values were unstable and showed higher overfitting tendencies.</li>
-            <li>As K increased, train accuracy declined while test performance improved, indicating better generalization.</li>
-            <li>The best model was not just the best KNN; it also became the overall top model by test F1-score.</li>
+            <li>Small K values were unstable and more affected by local noise.</li>
+            <li>As K increased, the model became less sensitive to outliers and produced more stable predictions.</li>
+            <li>This dataset appears to reward broader neighborhood voting rather than highly local decisions.</li>
           </ul>
+        </div>
+
+        <div class="risk-banner">
+          <strong>Important caveat:</strong> KNN achieved the best F1-score and very high recall, but its
+          precision remains lower than the tree. This means it catches more positives, but may also generate
+          more false alarms.
         </div>
       </div>
     </section>
@@ -657,8 +675,8 @@
       <div class="card">
         <h2>4. Final Model Comparison</h2>
         <p class="subtle">
-          The final comparison below uses the best Decision Tree versus the best KNN. The selection logic
-          prioritizes <strong>test F1-score</strong>, followed by test accuracy.
+          The final ranking prioritizes <strong>test F1-score</strong> and then <strong>test accuracy</strong>.
+          However, model selection should also consider business cost and interpretability.
         </p>
 
         <table>
@@ -671,7 +689,7 @@
               <th>Test Precision</th>
               <th>Test Recall</th>
               <th>Test F1-Score</th>
-              <th>Comment</th>
+              <th>Primary Strength</th>
             </tr>
           </thead>
           <tbody>
@@ -683,7 +701,7 @@
               <td>0.6687</td>
               <td class="best">0.8553</td>
               <td class="best">0.7506</td>
-              <td class="left best">Best overall by predictive performance</td>
+              <td class="left best">Best predictive performance, strongest recall</td>
             </tr>
             <tr>
               <td class="runnerup">Classification Tree</td>
@@ -693,46 +711,46 @@
               <td class="runnerup">0.7104</td>
               <td>0.7132</td>
               <td>0.7118</td>
-              <td class="left runnerup">Best for interpretability and rule extraction</td>
+              <td class="left runnerup">Best interpretability, clearer business rules</td>
             </tr>
           </tbody>
         </table>
 
         <div class="summary-banner">
-          <strong>Final conclusion:</strong> Based on the latest output, the strongest predictive model is
-          <strong>KNN with K = 29</strong>. The Decision Tree remains valuable for interpretability, but it is
-          no longer the top model on predictive performance.
+          <strong>Performance conclusion:</strong> KNN with K = 29 is the strongest model by out-of-sample
+          F1-score and recall. Decision Tree ranks second in predictive performance but remains the best
+          model for explanation and rule-based business interpretation.
         </div>
       </div>
     </section>
 
     <section class="section">
       <div class="card">
-        <h2>5. Business Interpretation</h2>
+        <h2>5. Business Cost Interpretation</h2>
         <div class="grid-2">
           <div class="bullet-box">
-            <h3>Why KNN Won</h3>
+            <h3>Why KNN Can Be Valuable</h3>
             <ul>
-              <li>The data appears to contain strong local similarity patterns among customers.</li>
-              <li>A larger K captured stable neighborhood structure better than smaller K values.</li>
-              <li>The very high recall suggests KNN is especially effective at catching true renewal cases.</li>
+              <li>High recall means fewer missed positive cases.</li>
+              <li>If missing a true renewal-risk or intervention-relevant customer is costly, KNN is attractive.</li>
+              <li>The model appears effective at detecting broader customer similarity patterns.</li>
             </ul>
           </div>
 
           <div class="bullet-box">
             <h3>Why Tree Still Matters</h3>
             <ul>
-              <li>The tree explains which factors drive outcomes, which is critical for management communication.</li>
-              <li>It highlights actionable levers such as usage drop, tenure, NPS, and feature adoption.</li>
-              <li>Its rules can support customer success playbooks even if it is not the final top scorer.</li>
+              <li>Higher precision means fewer unnecessary positive predictions.</li>
+              <li>If operational resources are limited, better precision can reduce wasted outreach.</li>
+              <li>Its rules are directly usable for management communication and customer success playbooks.</li>
             </ul>
           </div>
         </div>
 
         <div class="note">
-          <strong>Interpretive takeaway:</strong> If the main objective is pure predictive performance,
-          KNN(k=29) is the preferred model. If the objective is managerial explainability and operational rule design,
-          the Decision Tree remains highly useful as a companion model.
+          <strong>Cost framing:</strong> High recall reduces false negatives, but lower precision can increase
+          false positives. In practice, the better model depends on whether the business is more concerned with
+          missing real opportunities or overspending resources on low-risk accounts.
         </div>
       </div>
     </section>
@@ -741,13 +759,19 @@
       <div class="card">
         <h2>6. Executive Recommendation</h2>
         <div class="exec-box">
-          <h3>Recommended Production Direction</h3>
+          <h3>Recommended Operating Model</h3>
           <ul>
-            <li><strong>Primary predictive model:</strong> KNN with K = 29</li>
+            <li><strong>Primary scoring model:</strong> KNN with K = 29</li>
             <li><strong>Primary explanation model:</strong> Classification Tree</li>
-            <li><strong>Reason:</strong> KNN currently provides the best out-of-sample F1-score and recall, while the tree provides the clearest business interpretation.</li>
-            <li><strong>Recommended operating model:</strong> Use KNN for scoring and use the tree for executive explanation, retention rule design, and intervention prioritization.</li>
+            <li><strong>Reason:</strong> KNN currently provides the best out-of-sample F1-score and strongest recall, while the tree provides the clearest interpretation of drivers and decision rules.</li>
+            <li><strong>Practical recommendation:</strong> Use KNN for predictive scoring and use the tree to explain drivers, support executive discussion, and design retention actions.</li>
           </ul>
+        </div>
+
+        <div class="summary-banner">
+          <strong>Final management message:</strong> If the priority is predictive power, select KNN(k=29).
+          If the priority is transparent explanation, use the tree as the supporting interpretation layer.
+          The strongest combined strategy is to use both models together for different purposes.
         </div>
       </div>
     </section>
@@ -780,7 +804,7 @@
               <td class="best">KNN_k=29</td>
             </tr>
             <tr>
-              <td class="left">Top Interpretable Model</td>
+              <td class="left">Top Explainable Model</td>
               <td>Classification Tree</td>
             </tr>
             <tr>
@@ -793,7 +817,7 @@
     </section>
 
     <div class="footer-note">
-      Prepared for executive review · Latest results reflect full KNN tuning from K=1 to K=29
+      Prepared for executive review · Final version updated with latest tuning results and business-cost interpretation
     </div>
 
   </div>
