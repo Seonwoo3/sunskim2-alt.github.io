@@ -22,9 +22,7 @@
       --radius: 18px;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -58,14 +56,14 @@
 
     .hero p {
       margin: 0;
-      max-width: 900px;
+      max-width: 920px;
       font-size: 16px;
       opacity: 0.96;
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(4, 1fr);
       gap: 16px;
       margin-top: 28px;
     }
@@ -98,9 +96,7 @@
       margin-top: 6px;
     }
 
-    .section {
-      margin-bottom: 24px;
-    }
+    .section { margin-bottom: 24px; }
 
     .card {
       background: var(--white);
@@ -193,6 +189,11 @@
       border-color: #ccefdc;
     }
 
+    .kpi-box.warn {
+      background: var(--soft-yellow);
+      border-color: #f1df9b;
+    }
+
     .tag {
       display: inline-block;
       padding: 5px 10px;
@@ -263,14 +264,18 @@
       background: #f2f8fd;
     }
 
-    td.left, th.left {
-      text-align: left;
-    }
+    td.left, th.left { text-align: left; }
 
     .best {
       background: #e8f8ef !important;
       color: #17633f;
       font-weight: 800;
+    }
+
+    .runnerup {
+      background: #eef6ff !important;
+      color: #1f5f97;
+      font-weight: 700;
     }
 
     .note {
@@ -294,9 +299,7 @@
       padding: 0;
     }
 
-    .bullet-box li {
-      margin-bottom: 8px;
-    }
+    .bullet-box li { margin-bottom: 8px; }
 
     .exec-box {
       background: linear-gradient(135deg, #f7fbff 0%, #eef8f2 100%);
@@ -336,9 +339,10 @@
     <section class="hero">
       <h1>B2B SaaS Renewal Prediction Report</h1>
       <p>
-        Executive summary of model development, performance comparison, and business interpretation
-        for predicting <strong>renewed_next_quarter</strong>. Two models were evaluated:
-        <strong>K-Nearest Neighbors</strong> and <strong>Decision Tree</strong>.
+        Executive summary of model development, parameter tuning, and model comparison for predicting
+        <strong>renewed_next_quarter</strong>. The final comparison was based on the latest raw output,
+        with <strong>KNN tested across odd K values from 1 to 29</strong> and compared against a tuned
+        <strong>Classification Tree</strong>.
       </p>
 
       <div class="hero-grid">
@@ -348,14 +352,19 @@
           <div class="desc">Customer accounts analyzed</div>
         </div>
         <div class="hero-stat">
-          <div class="label">Final Winner</div>
-          <div class="value">Decision Tree</div>
-          <div class="desc">Best overall model for this use case</div>
+          <div class="label">Target Balance</div>
+          <div class="value">51.4 / 48.6</div>
+          <div class="desc">Renewed vs. non-renewed ratio</div>
         </div>
         <div class="hero-stat">
-          <div class="label">Best KNN Setting</div>
-          <div class="value">K = 5</div>
-          <div class="desc">Selected benchmark KNN model</div>
+          <div class="label">Final Winner</div>
+          <div class="value">KNN (K=29)</div>
+          <div class="desc">Best model by test F1-score</div>
+        </div>
+        <div class="hero-stat">
+          <div class="label">Best Tree</div>
+          <div class="value">Depth 7</div>
+          <div class="desc">Top-performing tree configuration</div>
         </div>
       </div>
     </section>
@@ -366,50 +375,47 @@
         <div class="grid-2">
           <div>
             <p class="subtle">
-              The dataset was prepared for a binary classification task where the target variable is
-              <strong>renewed_next_quarter</strong>. The preprocessing logic ensured an apple-to-apple
-              comparison between KNN and Decision Tree.
+              The dataset contains <strong>10,000 rows</strong> and <strong>22 columns</strong>. The target variable,
+              <strong>renewed_next_quarter</strong>, is nearly balanced, which makes the comparison between models
+              more reliable. After encoding, the feature matrix expanded to <strong>39 columns</strong>. The data was
+              split into <strong>7,000 training</strong> rows and <strong>3,000 test</strong> rows.
             </p>
 
             <table>
               <thead>
                 <tr>
                   <th class="left">Preparation Item</th>
-                  <th>Approach</th>
+                  <th>Result</th>
                 </tr>
               </thead>
               <tbody>
+                <tr>
+                  <td class="left">Dataset Shape</td>
+                  <td>10,000 × 22</td>
+                </tr>
                 <tr>
                   <td class="left">Target Variable</td>
                   <td>renewed_next_quarter</td>
                 </tr>
                 <tr>
-                  <td class="left">Identifier Removed</td>
-                  <td>account_id</td>
+                  <td class="left">Target Ratio</td>
+                  <td>1: 51.38% / 0: 48.62%</td>
                 </tr>
                 <tr>
-                  <td class="left">Feature Count</td>
-                  <td>20 variables</td>
-                </tr>
-                <tr>
-                  <td class="left">Categorical Encoding</td>
-                  <td>LabelEncoder</td>
+                  <td class="left">Encoded Feature Shape</td>
+                  <td>10,000 × 39</td>
                 </tr>
                 <tr>
                   <td class="left">Train / Test Split</td>
-                  <td>80% / 20%</td>
+                  <td>7,000 / 3,000</td>
                 </tr>
                 <tr>
-                  <td class="left">Random State</td>
-                  <td>42</td>
-                </tr>
-                <tr>
-                  <td class="left">Scaling for KNN</td>
+                  <td class="left">KNN Preprocessing</td>
                   <td>StandardScaler applied</td>
                 </tr>
                 <tr>
-                  <td class="left">Scaling for Tree</td>
-                  <td>Not required</td>
+                  <td class="left">Tree Preprocessing</td>
+                  <td>Unscaled raw encoded features</td>
                 </tr>
               </tbody>
             </table>
@@ -417,70 +423,74 @@
 
           <div class="grid-3">
             <div class="mini-card">
-              <h4>Industry</h4>
-              <p>Encoded using LabelEncoder</p>
+              <h4>Class Balance</h4>
+              <p>Close to even split, so accuracy and F1 are meaningful.</p>
             </div>
             <div class="mini-card">
-              <h4>Region</h4>
-              <p>Encoded using LabelEncoder</p>
+              <h4>Feature Space</h4>
+              <p>Expanded to 39 encoded features after preprocessing.</p>
             </div>
             <div class="mini-card">
-              <h4>Support Level</h4>
-              <p>Encoded using LabelEncoder</p>
+              <h4>Scaling Strategy</h4>
+              <p>KNN scaled, Tree not scaled, matching algorithm needs.</p>
             </div>
             <div class="mini-card">
-              <h4>Contract Type</h4>
-              <p>Encoded using LabelEncoder</p>
+              <h4>Train Size</h4>
+              <p>7,000 observations for model fitting.</p>
             </div>
             <div class="mini-card">
-              <h4>KNN Dataset</h4>
-              <p>Scaled feature space for distance comparison</p>
+              <h4>Test Size</h4>
+              <p>3,000 observations for out-of-sample evaluation.</p>
             </div>
             <div class="mini-card">
-              <h4>Tree Dataset</h4>
-              <p>Original feature values retained</p>
+              <h4>Comparison Logic</h4>
+              <p>Same target, same split, same evaluation basis.</p>
             </div>
           </div>
         </div>
 
         <div class="summary-banner">
-          <strong>Data balance check:</strong> The target classes were sufficiently balanced, which means
-          the model comparison is meaningful and not primarily driven by class imbalance.
+          <strong>Executive note:</strong> The target distribution is balanced enough that performance
+          differences are likely driven by actual modeling quality rather than class imbalance.
         </div>
       </div>
     </section>
 
     <section class="section">
       <div class="card">
-        <h2>2. KNN Model Evaluation <span class="tag blue">Benchmark Model</span></h2>
+        <h2>2. Classification Tree Performance <span class="tag blue">Interpretable Baseline</span></h2>
         <p class="subtle">
-          KNN was trained with <strong>n_neighbors = 5</strong>. Because KNN is a distance-based algorithm,
-          feature scaling was necessary before model training.
+          Three tree configurations were tested. The best-performing version used
+          <strong>max_depth = 7</strong>, <strong>min_samples_leaf = 20</strong>, and
+          <strong>min_samples_split = 30</strong>.
         </p>
 
         <div class="kpi">
           <div class="kpi-box">
-            <div class="k">Accuracy</div>
-            <div class="v">0.7085</div>
+            <div class="k">Train Accuracy</div>
+            <div class="v">0.7706</div>
           </div>
           <div class="kpi-box">
-            <div class="k">Precision</div>
-            <div class="v">0.7111</div>
+            <div class="k">Test Accuracy</div>
+            <div class="v">0.7033</div>
           </div>
           <div class="kpi-box">
-            <div class="k">Recall</div>
-            <div class="v">0.7085</div>
+            <div class="k">Test Precision</div>
+            <div class="v">0.7104</div>
           </div>
           <div class="kpi-box">
-            <div class="k">F1-Score</div>
-            <div class="v">0.7068</div>
+            <div class="k">Test F1-Score</div>
+            <div class="v">0.7118</div>
           </div>
         </div>
 
         <table>
           <thead>
             <tr>
-              <th>Class</th>
+              <th>max_depth</th>
+              <th>min_samples_leaf</th>
+              <th>min_samples_split</th>
+              <th>Accuracy</th>
               <th>Precision</th>
               <th>Recall</th>
               <th>F1-Score</th>
@@ -488,89 +498,156 @@
           </thead>
           <tbody>
             <tr>
-              <td>Class 0 (Non-Renewal)</td>
-              <td>0.73</td>
-              <td>0.63</td>
-              <td>0.68</td>
+              <td class="best">7</td>
+              <td class="best">20</td>
+              <td class="best">30</td>
+              <td>0.7033</td>
+              <td>0.7104</td>
+              <td>0.7132</td>
+              <td class="best">0.7118</td>
             </tr>
             <tr>
-              <td>Class 1 (Renewal)</td>
-              <td>0.69</td>
-              <td>0.78</td>
-              <td>0.73</td>
+              <td>5</td>
+              <td>10</td>
+              <td>20</td>
+              <td>0.7053</td>
+              <td>0.7194</td>
+              <td>0.6989</td>
+              <td>0.7090</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>5</td>
+              <td>20</td>
+              <td>0.6880</td>
+              <td>0.6862</td>
+              <td>0.7236</td>
+              <td>0.7044</td>
             </tr>
           </tbody>
         </table>
 
         <div class="bullet-box">
-          <h3>KNN Interpretation</h3>
+          <h3>Top Drivers Identified by the Tree</h3>
           <ul>
-            <li>KNN works by comparing each customer to nearby customers in the feature space.</li>
-            <li>Its main strength is capturing local similarity without assuming a fixed functional form.</li>
-            <li>Its limitation is that performance can weaken in higher-dimensional data because distances become less informative, which is the curse of dimensionality.</li>
+            <li><strong>usage_drop_pct_30d</strong> (0.3520)</li>
+            <li><strong>tenure_months</strong> (0.1886)</li>
+            <li><strong>nps_score</strong> (0.1737)</li>
+            <li><strong>feature_adoption_score</strong> (0.1075)</li>
+            <li><strong>last_qbr_days</strong> (0.0733)</li>
+            <li><strong>payment_delay_days</strong> (0.0595)</li>
           </ul>
+        </div>
+
+        <div class="note">
+          <strong>Interpretation:</strong> The tree suggests renewal is strongly driven by behavioral
+          decline, tenure, customer sentiment, adoption depth, and account management cadence.
+          This is highly useful from an explainability standpoint.
         </div>
       </div>
     </section>
 
     <section class="section">
       <div class="card">
-        <h2>3. Decision Tree Evaluation <span class="tag green">Recommended Model</span></h2>
+        <h2>3. KNN Tuning Results <span class="tag green">Best Performing Model</span></h2>
         <p class="subtle">
-          The Decision Tree was trained with <strong>max_depth = 5</strong>. Unlike KNN, the model does not
-          require scaling because it uses threshold-based splitting rules rather than distance calculations.
+          KNN was tested using all odd K values from <strong>1 to 29</strong>. Performance improved
+          steadily as K increased, indicating that a broader neighborhood produced better generalization
+          than small-K local fitting.
         </p>
 
         <div class="kpi">
           <div class="kpi-box good">
-            <div class="k">Accuracy</div>
-            <div class="v">0.7195</div>
+            <div class="k">Best K</div>
+            <div class="v">29</div>
           </div>
           <div class="kpi-box good">
-            <div class="k">Precision</div>
-            <div class="v">0.7225</div>
+            <div class="k">Test Accuracy</div>
+            <div class="v">0.7080</div>
           </div>
           <div class="kpi-box good">
-            <div class="k">Recall</div>
-            <div class="v">0.7195</div>
+            <div class="k">Test Recall</div>
+            <div class="v">0.8553</div>
           </div>
           <div class="kpi-box good">
-            <div class="k">F1-Score</div>
-            <div class="v">0.7178</div>
+            <div class="k">Test F1-Score</div>
+            <div class="v">0.7506</div>
           </div>
         </div>
 
         <table>
           <thead>
             <tr>
-              <th>Class</th>
-              <th>Precision</th>
-              <th>Recall</th>
-              <th>F1-Score</th>
+              <th>Model</th>
+              <th>K</th>
+              <th>Train Accuracy</th>
+              <th>Test Accuracy</th>
+              <th>Test Precision</th>
+              <th>Test Recall</th>
+              <th>Test F1-Score</th>
+              <th>Tree Match Rate</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Class 0 (Non-Renewal)</td>
-              <td>0.75</td>
-              <td>0.64</td>
-              <td>0.69</td>
+              <td class="best">KNN_k=29</td>
+              <td class="best">29</td>
+              <td>0.7499</td>
+              <td class="best">0.7080</td>
+              <td>0.6687</td>
+              <td class="best">0.8553</td>
+              <td class="best">0.7506</td>
+              <td class="best">0.6667</td>
             </tr>
             <tr>
-              <td>Class 1 (Renewal)</td>
-              <td>0.70</td>
-              <td>0.79</td>
-              <td>0.74</td>
+              <td>KNN_k=27</td>
+              <td>27</td>
+              <td>0.7554</td>
+              <td>0.7050</td>
+              <td>0.6677</td>
+              <td>0.8475</td>
+              <td>0.7469</td>
+              <td>0.6663</td>
+            </tr>
+            <tr>
+              <td>KNN_k=25</td>
+              <td>25</td>
+              <td>0.7584</td>
+              <td>0.7040</td>
+              <td>0.6668</td>
+              <td>0.8469</td>
+              <td>0.7461</td>
+              <td>0.6633</td>
+            </tr>
+            <tr>
+              <td>KNN_k=21</td>
+              <td>21</td>
+              <td>0.7599</td>
+              <td>0.7047</td>
+              <td>0.6693</td>
+              <td>0.8404</td>
+              <td>0.7451</td>
+              <td>0.6653</td>
+            </tr>
+            <tr>
+              <td>KNN_k=23</td>
+              <td>23</td>
+              <td>0.7550</td>
+              <td>0.7027</td>
+              <td>0.6662</td>
+              <td>0.8443</td>
+              <td>0.7447</td>
+              <td>0.6640</td>
             </tr>
           </tbody>
         </table>
 
         <div class="bullet-box">
-          <h3>Decision Tree Interpretation</h3>
+          <h3>KNN Pattern Interpretation</h3>
           <ul>
-            <li>Decision Tree is a rule-based model that groups customers through clear splitting conditions.</li>
-            <li>Its major business advantage is interpretability, since management can understand which rules drive renewal or churn risk.</li>
-            <li>Overfitting is a common risk in tree models, but setting <strong>max_depth = 5</strong> helps control complexity and improves generalization.</li>
+            <li>Small K values were unstable and showed higher overfitting tendencies.</li>
+            <li>As K increased, train accuracy declined while test performance improved, indicating better generalization.</li>
+            <li>The best model was not just the best KNN; it also became the overall top model by test F1-score.</li>
           </ul>
         </div>
       </div>
@@ -578,97 +655,98 @@
 
     <section class="section">
       <div class="card">
-        <h2>4. Apple-to-Apple Performance Comparison</h2>
+        <h2>4. Final Model Comparison</h2>
         <p class="subtle">
-          The table below compares both models on the exact same evaluation basis. This provides a direct
-          model selection view for executive decision-making.
+          The final comparison below uses the best Decision Tree versus the best KNN. The selection logic
+          prioritizes <strong>test F1-score</strong>, followed by test accuracy.
         </p>
 
         <table>
           <thead>
             <tr>
-              <th>Metric</th>
-              <th>KNN (k=5)</th>
-              <th>Decision Tree (max_depth=5)</th>
-              <th>Winner</th>
+              <th>Model</th>
+              <th>K</th>
+              <th>Train Accuracy</th>
+              <th>Test Accuracy</th>
+              <th>Test Precision</th>
+              <th>Test Recall</th>
+              <th>Test F1-Score</th>
+              <th>Comment</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>Accuracy</td>
-              <td>0.7085</td>
-              <td class="best">0.7195</td>
-              <td>Decision Tree</td>
+              <td class="best">KNN_k=29</td>
+              <td class="best">29</td>
+              <td>0.7499</td>
+              <td class="best">0.7080</td>
+              <td>0.6687</td>
+              <td class="best">0.8553</td>
+              <td class="best">0.7506</td>
+              <td class="left best">Best overall by predictive performance</td>
             </tr>
             <tr>
-              <td>Precision</td>
-              <td>0.7111</td>
-              <td class="best">0.7225</td>
-              <td>Decision Tree</td>
-            </tr>
-            <tr>
-              <td>Recall</td>
-              <td>0.7085</td>
-              <td class="best">0.7195</td>
-              <td>Decision Tree</td>
-            </tr>
-            <tr>
-              <td>F1-Score</td>
-              <td>0.7068</td>
-              <td class="best">0.7178</td>
-              <td>Decision Tree</td>
+              <td class="runnerup">Classification Tree</td>
+              <td>—</td>
+              <td class="runnerup">0.7706</td>
+              <td>0.7033</td>
+              <td class="runnerup">0.7104</td>
+              <td>0.7132</td>
+              <td>0.7118</td>
+              <td class="left runnerup">Best for interpretability and rule extraction</td>
             </tr>
           </tbody>
         </table>
 
         <div class="summary-banner">
-          <strong>Bottom line:</strong> Decision Tree outperformed KNN on all four key performance metrics.
-          The margin is not extremely large, but it is directionally consistent across every indicator.
+          <strong>Final conclusion:</strong> Based on the latest output, the strongest predictive model is
+          <strong>KNN with K = 29</strong>. The Decision Tree remains valuable for interpretability, but it is
+          no longer the top model on predictive performance.
         </div>
       </div>
     </section>
 
     <section class="section">
       <div class="card">
-        <h2>5. Business Interpretation: Recall vs. F1-Score</h2>
+        <h2>5. Business Interpretation</h2>
         <div class="grid-2">
           <div class="bullet-box">
-            <h3>Why Recall Matters</h3>
+            <h3>Why KNN Won</h3>
             <ul>
-              <li>Recall becomes important when the company wants to identify as many at-risk customers as possible.</li>
-              <li>A <strong>False Negative</strong> means a true non-renewal customer is missed.</li>
-              <li>That can directly lead to lost revenue because the company fails to intervene in time.</li>
+              <li>The data appears to contain strong local similarity patterns among customers.</li>
+              <li>A larger K captured stable neighborhood structure better than smaller K values.</li>
+              <li>The very high recall suggests KNN is especially effective at catching true renewal cases.</li>
             </ul>
           </div>
 
           <div class="bullet-box">
-            <h3>Why F1-Score Matters</h3>
+            <h3>Why Tree Still Matters</h3>
             <ul>
-              <li>F1-Score balances Precision and Recall.</li>
-              <li>A model with high Recall but weak Precision may create too many false alarms.</li>
-              <li>That leads to resource waste because customer success teams spend time on accounts that were not actually at risk.</li>
+              <li>The tree explains which factors drive outcomes, which is critical for management communication.</li>
+              <li>It highlights actionable levers such as usage drop, tenure, NPS, and feature adoption.</li>
+              <li>Its rules can support customer success playbooks even if it is not the final top scorer.</li>
             </ul>
           </div>
         </div>
 
         <div class="note">
-          <strong>Executive interpretation:</strong> For intervention strategy, Recall is strategically important.
-          For final model selection, however, <strong>F1-Score is the more balanced summary metric</strong>
-          because it captures both missed-risk cost and wasted-resource cost.
+          <strong>Interpretive takeaway:</strong> If the main objective is pure predictive performance,
+          KNN(k=29) is the preferred model. If the objective is managerial explainability and operational rule design,
+          the Decision Tree remains highly useful as a companion model.
         </div>
       </div>
     </section>
 
     <section class="section">
       <div class="card">
-        <h2>6. Final Recommendation</h2>
+        <h2>6. Executive Recommendation</h2>
         <div class="exec-box">
-          <h3>Recommended Model: Decision Tree</h3>
+          <h3>Recommended Production Direction</h3>
           <ul>
-            <li><strong>Performance:</strong> Decision Tree delivered the strongest overall metrics across Accuracy, Precision, Recall, and F1-Score.</li>
-            <li><strong>Interpretability:</strong> Its rule-based structure is easier to explain to management and operational teams.</li>
-            <li><strong>Business usability:</strong> The model is better suited for customer segmentation, intervention prioritization, and executive reporting.</li>
-            <li><strong>Role of KNN:</strong> KNN remains useful as a benchmark model, but it is less suitable as the primary decision-support tool in this business context.</li>
+            <li><strong>Primary predictive model:</strong> KNN with K = 29</li>
+            <li><strong>Primary explanation model:</strong> Classification Tree</li>
+            <li><strong>Reason:</strong> KNN currently provides the best out-of-sample F1-score and recall, while the tree provides the clearest business interpretation.</li>
+            <li><strong>Recommended operating model:</strong> Use KNN for scoring and use the tree for executive explanation, retention rule design, and intervention prioritization.</li>
           </ul>
         </div>
       </div>
@@ -686,28 +764,28 @@
           </thead>
           <tbody>
             <tr>
-              <td class="left">Preprocessing Strategy</td>
-              <td>Appropriate and model-specific</td>
+              <td class="left">Dataset Quality</td>
+              <td>Balanced enough for fair comparison</td>
             </tr>
             <tr>
-              <td class="left">Best Benchmark Model</td>
-              <td>KNN (k=5)</td>
+              <td class="left">Best Decision Tree</td>
+              <td>Depth 7 / Leaf 20 / Split 30</td>
             </tr>
             <tr>
-              <td class="left">Best Overall Model</td>
-              <td class="best">Decision Tree</td>
+              <td class="left">Best KNN</td>
+              <td class="best">K = 29</td>
             </tr>
             <tr>
-              <td class="left">Most Practical Model Selection Metric</td>
-              <td>F1-Score</td>
+              <td class="left">Top Predictive Model</td>
+              <td class="best">KNN_k=29</td>
             </tr>
             <tr>
-              <td class="left">Strategically Important Business Metric</td>
-              <td>Recall</td>
+              <td class="left">Top Interpretable Model</td>
+              <td>Classification Tree</td>
             </tr>
             <tr>
               <td class="left">Final Recommendation</td>
-              <td class="best">Deploy Decision Tree as the primary model</td>
+              <td class="best">Deploy KNN for scoring, keep Tree for explanation</td>
             </tr>
           </tbody>
         </table>
@@ -715,7 +793,7 @@
     </section>
 
     <div class="footer-note">
-      Prepared for executive review · B2B SaaS customer renewal prediction analysis
+      Prepared for executive review · Latest results reflect full KNN tuning from K=1 to K=29
     </div>
 
   </div>
