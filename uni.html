@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Model Comparison Report: Classification Tree vs. KNN</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      line-height: 1.6;
+      margin: 40px;
+      color: #222;
+    }
+    h1, h2, h3 {
+      color: #111;
+    }
+    .section {
+      margin-bottom: 28px;
+    }
+    .box {
+      border: 1px solid #ccc;
+      padding: 16px;
+      border-radius: 8px;
+      background: #fafafa;
+      margin-top: 10px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 12px;
+      margin-bottom: 18px;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background: #f2f2f2;
+    }
+    ul {
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Model Comparison Report</h1>
+  <p><strong>Topic:</strong> Predicting Customer Renewal in B2B SaaS</p>
+
+  <div class="section">
+    <h2>1. Dataset Overview</h2>
+    <div class="box">
+      <p>The dataset contains <strong>10,000 customer accounts</strong> and <strong>22 columns</strong>. The target variable is <strong>renewed_next_quarter</strong>, which indicates whether a customer renewed in the next quarter.</p>
+      <table>
+        <tr>
+          <th>Target Class</th>
+          <th>Count</th>
+          <th>Ratio</th>
+        </tr>
+        <tr>
+          <td>1 (Renewed)</td>
+          <td>5,138</td>
+          <td>51.38%</td>
+        </tr>
+        <tr>
+          <td>0 (Churned)</td>
+          <td>4,862</td>
+          <td>48.62%</td>
+        </tr>
+      </table>
+      <p>This means the target classes are relatively balanced. Therefore, model performance must come from real pattern learning, not class bias.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>2. Models Compared</h2>
+    <div class="box">
+      <ul>
+        <li><strong>Classification Tree</strong></li>
+        <li><strong>K-Nearest Neighbors (KNN)</strong></li>
+      </ul>
+      <p>The best K value for KNN was <strong>9</strong>.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>3. Main Result</h2>
+    <div class="box">
+      <p><strong>Final Best Model:</strong> Classification Tree</p>
+      <p>Even though KNN improved with tuning (K=9), the tree model still matched the actual outcomes better.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>4. Why Classification Tree Performed Better</h2>
+    <div class="box">
+      <h3>Nonlinear decision structure</h3>
+      <p>The dataset likely contains nonlinear patterns (e.g., threshold-based behavior), which trees capture well.</p>
+
+      <h3>Threshold-based business logic</h3>
+      <p>Customer renewal often depends on clear cutoffs (e.g., usage drop, engagement level), not just similarity.</p>
+
+      <h3>Interpretability</h3>
+      <p>The tree provides explicit decision rules, which are directly usable in business decision-making.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>5. Why K = 9 Worked Best for KNN</h2>
+    <div class="box">
+      <ul>
+        <li>Small K → too sensitive to noise</li>
+        <li>Large K → too averaged (loses meaning)</li>
+        <li>K = 9 → balanced noise reduction + local pattern 유지</li>
+      </ul>
+      <p>However, KNN still underperformed because similarity alone was not enough to explain the data.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>6. Interpretation</h2>
+    <div class="box">
+      <p>KNN answers: <em>"Who is similar?"</em></p>
+      <p>Tree answers: <em>"What rule separates outcomes?"</em></p>
+
+      <p>This dataset favors rule-based segmentation rather than similarity-based prediction.</p>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>7. Business Insight</h2>
+    <div class="box">
+      <ul>
+        <li>Tree → better for explaining churn drivers</li>
+        <li>Better for actionable strategy (CS team 활용 가능)</li>
+        <li>KNN → 참고 모델 수준</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>8. Final Conclusion</h2>
+    <div class="box">
+      <p>The Classification Tree is the most appropriate model for this problem because it captures decision rules and aligns better with actual outcomes.</p>
+    </div>
+  </div>
+
+</body>
+</html>
