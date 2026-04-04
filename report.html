@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Customer Segmentation Report (K=4)</title>
+<style>
+body { font-family: Arial; margin: 20px; line-height: 1.6; }
+h1 { text-align: center; }
+.section { margin-bottom: 40px; }
+.box { border: 1px solid #ccc; padding: 15px; margin-top: 10px; border-radius: 6px; }
+.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+.recommend-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+.recommend { border: 1px solid #ccc; border-radius: 6px; }
+.head { padding: 8px; font-weight: bold; color: white; }
+.ml { background: #2b6cb0; }
+.crm { background: #2f855a; }
+.pricing { background: #d69e2e; }
+.retention { background: #c53030; }
+.body { padding: 10px; font-size: 13px; }
+</style>
+</head>
+
+<body>
+
+<h1>Customer Segmentation Report (K=4)</h1>
+
+<div class="section">
+<h2>1. Business Problem</h2>
+<p><strong>Problem:</strong> Segment customers based on behavior and characteristics</p>
+<p><strong>Goal:</strong></p>
+<ul>
+<li>Targeted marketing</li>
+<li>Pricing strategies</li>
+<li>Product design</li>
+<li>Retention campaigns</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>2. Key Methodology</h2>
+<ul>
+<li>K-Means clustering applied</li>
+<li>Features standardized (StandardScaler)</li>
+<li>Elbow + Silhouette used for evaluation</li>
+<li>K fixed at 4 based on business + interpretability</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>3. Important Modeling Decisions</h2>
+<ul>
+<li>Savings balance removed → highly correlated with investment balance</li>
+<li>Age excluded → used only for profiling</li>
+<li>Feature selection focused on behavior + financial activity</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>4. Segment Overview (K=4)</h2>
+<div class="grid">
+
+<div class="box">
+<h3>S0 · Conservative Wealth Holders</h3>
+<p>High assets, low risk tolerance, long tenure</p>
+</div>
+
+<div class="box">
+<h3>S1 · High-risk Growth Investors</h3>
+<p>High investment balance, high risk tolerance</p>
+</div>
+
+<div class="box">
+<h3>S2 · Loyal Low-income Users</h3>
+<p>Long tenure, high loyalty, lower income</p>
+</div>
+
+<div class="box">
+<h3>S3 · Power Transactors</h3>
+<p>Highest activity, frequent logins and transactions</p>
+</div>
+
+</div>
+</div>
+
+<div class="section">
+<h2>5. Cluster Interpretation Summary</h2>
+<ul>
+<li>S0 → Stable but low-growth customers</li>
+<li>S1 → High-value growth-focused segment</li>
+<li>S2 → Loyal but financially constrained</li>
+<li>S3 → Most active and monetizable users</li>
+</ul>
+</div>
+
+<div class="section">
+<h2>6. Business Recommendations (Behavior-Based)</h2>
+
+<div class="recommend-grid">
+
+<div class="recommend">
+<div class="head ml">ML / Programmatic</div>
+<div class="body">
+S0 customers show stable behavior and low risk preference, so models should prioritize wealth preservation signals rather than aggressive growth targeting.<br><br>
+S1 customers have high investment activity, making them ideal for premium targeting and lookalike modeling.<br><br>
+S2 users are loyal but lower income, so models should focus on engagement and retention uplift rather than monetization.<br><br>
+S3 users show the strongest behavioral signals, making them the best candidates for high-value targeting models.
+</div>
+</div>
+
+<div class="recommend">
+<div class="head crm">Offline / CRM</div>
+<div class="body">
+S0 users show moderate engagement, so email-based communication is more effective than push notifications.<br><br>
+S1 users actively manage investments, so educational and premium content campaigns are effective.<br><br>
+S2 users are loyal but not highly active digitally, so push + SMS reminders help maintain engagement.<br><br>
+S3 users frequently log in, so in-app messaging and real-time engagement are most effective.
+</div>
+</div>
+
+<div class="recommend">
+<div class="head pricing">Pricing</div>
+<div class="body">
+S0 users prefer stability → low-fee, safe products.<br><br>
+S1 users show high willingness to pay → premium pricing possible.<br><br>
+S2 users are price-sensitive → cashback / free-tier strategies required.<br><br>
+S3 users generate high volume → subscription or transaction-based pricing optimal.
+</div>
+</div>
+
+<div class="recommend">
+<div class="head retention">Retention</div>
+<div class="body">
+S0 churn signal: drop in activity → use financial safety reassurance.<br><br>
+S1 churn signal: drop in investment → proactive alerts needed.<br><br>
+S2 churn risk is low but engagement drop should be monitored via push.<br><br>
+S3 churn signal: decrease in login or transaction frequency → immediate intervention needed.
+</div>
+</div>
+
+</div>
+</div>
+
+<div class="section">
+<h2>7. Key Insight</h2>
+<p>
+Although clustering separation is not extremely strong, the segmentation provides meaningful operational groups.
+Behavior-based differentiation (activity, risk, financial status) enables practical marketing and retention strategies.
+</p>
+</div>
+
+<div class="section">
+<h2>8. Conclusion</h2>
+<ul>
+<li>K-Means successfully applied</li>
+<li>K=4 selected for interpretability</li>
+<li>Segments are actionable for business use</li>
+<li>Behavior-driven strategy is key outcome</li>
+</ul>
+</div>
+
+</body>
+</html>
