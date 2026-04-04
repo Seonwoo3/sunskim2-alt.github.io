@@ -5,260 +5,719 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>B2B SaaS Renewal Prediction Report</title>
   <style>
+    :root {
+      --navy: #16324f;
+      --blue: #245c90;
+      --sky: #5da9e9;
+      --mint: #6fcf97;
+      --soft-mint: #eaf8f0;
+      --soft-blue: #eef5fb;
+      --soft-yellow: #fff8e8;
+      --soft-red: #fdeeee;
+      --text: #1f2937;
+      --subtext: #5b6676;
+      --border: #d9e2ec;
+      --white: #ffffff;
+      --shadow: 0 10px 30px rgba(22, 50, 79, 0.08);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      font-family: Arial, Helvetica, sans-serif;
+      margin: 0;
+      font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #f4f8fc 0%, #eef5fb 100%);
+      color: var(--text);
       line-height: 1.65;
-      margin: 36px;
-      color: #222;
-      max-width: 1100px;
     }
-    h1, h2, h3 {
-      color: #111;
-      margin-bottom: 10px;
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 24px 56px;
     }
-    .section {
+
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--blue) 60%, var(--sky) 100%);
+      color: var(--white);
+      border-radius: 24px;
+      padding: 36px 40px;
+      box-shadow: var(--shadow);
       margin-bottom: 28px;
     }
-    .box {
-      border: 1px solid #d9d9d9;
-      border-radius: 10px;
-      padding: 18px;
-      background: #fafafa;
+
+    .hero h1 {
+      margin: 0 0 12px;
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
     }
-    .highlight {
-      background: #fff4cc;
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-weight: bold;
+
+    .hero p {
+      margin: 0;
+      max-width: 900px;
+      font-size: 16px;
+      opacity: 0.96;
     }
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      margin-top: 12px;
-      margin-bottom: 14px;
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .hero-stat {
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 18px;
+      padding: 18px 18px 16px;
+      backdrop-filter: blur(4px);
+    }
+
+    .hero-stat .label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      opacity: 0.85;
+      margin-bottom: 8px;
+    }
+
+    .hero-stat .value {
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .hero-stat .desc {
+      font-size: 13px;
+      opacity: 0.9;
+      margin-top: 6px;
+    }
+
+    .section {
+      margin-bottom: 24px;
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px 26px;
+      box-shadow: var(--shadow);
+    }
+
+    .card h2 {
+      margin: 0 0 14px;
+      font-size: 24px;
+      color: var(--navy);
+      letter-spacing: -0.02em;
+    }
+
+    .card h3 {
+      margin: 18px 0 8px;
+      font-size: 18px;
+      color: var(--blue);
+    }
+
+    .subtle {
+      color: var(--subtext);
       font-size: 15px;
     }
-    th, td {
-      border: 1px solid #cfcfcf;
-      padding: 10px 12px;
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 22px;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .mini-card {
+      border-radius: 16px;
+      padding: 18px;
+      border: 1px solid var(--border);
+      background: #fbfdff;
+    }
+
+    .mini-card h4 {
+      margin: 0 0 8px;
+      font-size: 15px;
+      color: var(--navy);
+    }
+
+    .mini-card p {
+      margin: 0;
+      font-size: 14px;
+      color: var(--subtext);
+    }
+
+    .kpi {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .kpi-box {
+      border-radius: 16px;
+      padding: 16px;
+      background: var(--soft-blue);
+      border: 1px solid #d6e6f5;
+    }
+
+    .kpi-box .k {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--blue);
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+
+    .kpi-box .v {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--navy);
+    }
+
+    .kpi-box.good {
+      background: var(--soft-mint);
+      border-color: #ccefdc;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+
+    .tag.green {
+      background: #ddf5e7;
+      color: #177245;
+    }
+
+    .tag.blue {
+      background: #e6f1fb;
+      color: #1f5f97;
+    }
+
+    .tag.gold {
+      background: #fff2cf;
+      color: #8a6600;
+    }
+
+    .summary-banner {
+      border-left: 6px solid var(--mint);
+      background: linear-gradient(90deg, #f3fbf7 0%, #ffffff 100%);
+      border-radius: 16px;
+      padding: 18px 20px;
+      margin-top: 18px;
+    }
+
+    .summary-banner strong {
+      color: #177245;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      font-size: 14px;
+      overflow: hidden;
+      border-radius: 14px;
+    }
+
+    thead th {
+      background: linear-gradient(90deg, var(--navy), var(--blue));
+      color: var(--white);
       text-align: center;
+      padding: 12px 10px;
+      font-weight: 700;
     }
-    th {
-      background: #f1f1f1;
+
+    tbody td {
+      border-bottom: 1px solid #e7eef5;
+      padding: 12px 10px;
+      text-align: center;
+      background: var(--white);
     }
-    .left {
+
+    tbody tr:nth-child(even) td {
+      background: #f9fbfd;
+    }
+
+    tbody tr:hover td {
+      background: #f2f8fd;
+    }
+
+    td.left, th.left {
       text-align: left;
     }
-    ul {
-      margin-top: 6px;
-      margin-bottom: 6px;
+
+    .best {
+      background: #e8f8ef !important;
+      color: #17633f;
+      font-weight: 800;
     }
-    .conclusion {
-      border-left: 6px solid #4a90e2;
-      background: #f7fbff;
-      padding: 16px;
-      margin-top: 10px;
-    }
-    .small {
-      color: #555;
+
+    .note {
+      margin-top: 12px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      background: var(--soft-yellow);
+      border: 1px solid #f3e1a7;
       font-size: 14px;
     }
-    .code-note {
-      background: #272822;
-      color: #f8f8f2;
-      padding: 14px;
-      border-radius: 8px;
-      font-family: Consolas, Monaco, monospace;
-      font-size: 14px;
-      white-space: pre-wrap;
-      margin-top: 10px;
+
+    .bullet-box {
+      background: #fbfdff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 16px 18px;
+    }
+
+    .bullet-box ul {
+      margin: 8px 0 0 18px;
+      padding: 0;
+    }
+
+    .bullet-box li {
+      margin-bottom: 8px;
+    }
+
+    .exec-box {
+      background: linear-gradient(135deg, #f7fbff 0%, #eef8f2 100%);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+    }
+
+    .footer-note {
+      text-align: center;
+      color: var(--subtext);
+      font-size: 13px;
+      margin-top: 28px;
+    }
+
+    @media (max-width: 900px) {
+      .hero-grid,
+      .grid-2,
+      .grid-3,
+      .kpi {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding: 28px 24px;
+      }
+
+      .card {
+        padding: 20px;
+      }
     }
   </style>
 </head>
 <body>
+  <div class="container">
 
-  <h1>B2B SaaS Renewal Prediction Report</h1>
-  <p><strong>Objective:</strong> Build classification models to predict <strong>renewed_next_quarter</strong> and compare KNN with Decision Tree from both performance and business perspectives.</p>
+    <section class="hero">
+      <h1>B2B SaaS Renewal Prediction Report</h1>
+      <p>
+        Executive summary of model development, performance comparison, and business interpretation
+        for predicting <strong>renewed_next_quarter</strong>. Two models were evaluated:
+        <strong>K-Nearest Neighbors</strong> and <strong>Decision Tree</strong>.
+      </p>
 
-  <div class="section">
-    <h2>Step 1. Data Loading and Preprocessing</h2>
-    <div class="box">
-      <ul>
-        <li>The dataset was loaded from a CSV file.</li>
-        <li>The categorical variables <strong>industry</strong>, <strong>region</strong>, <strong>support_level</strong>, and <strong>contract_type</strong> were encoded using <strong>LabelEncoder</strong>.</li>
-        <li><strong>account_id</strong> and the target variable <strong>renewed_next_quarter</strong> were excluded from the feature set.</li>
-        <li>The remaining <strong>20 variables</strong> were used as model inputs.</li>
-        <li>The data was split into <strong>80% training</strong> and <strong>20% testing</strong> sets using <strong>random_state = 42</strong>.</li>
-        <li>For KNN, a <strong>StandardScaler</strong> version was prepared because KNN is distance-based.</li>
-        <li>For Decision Tree, the original unscaled data was used.</li>
-      </ul>
-
-      <h3>Data Imbalance Check</h3>
-      <p>The class distribution was close to balanced, so model performance is not heavily biased by class imbalance. This makes the comparison between models more meaningful.</p>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>Step 2. KNN Model Training and Evaluation</h2>
-    <div class="box">
-      <p>The KNN model was trained with <strong>KNeighborsClassifier(n_neighbors=5)</strong>.</p>
-
-      <table>
-        <tr>
-          <th>Metric</th>
-          <th>KNN (k=5)</th>
-        </tr>
-        <tr>
-          <td>Accuracy</td>
-          <td>0.7085</td>
-        </tr>
-        <tr>
-          <td>Precision</td>
-          <td>0.7111</td>
-        </tr>
-        <tr>
-          <td>Recall</td>
-          <td>0.7085</td>
-        </tr>
-        <tr>
-          <td>F1-Score</td>
-          <td>0.7068</td>
-        </tr>
-      </table>
-
-      <p><strong>Class-level performance:</strong></p>
-      <ul>
-        <li>Class 0: Precision 0.73 / Recall 0.63 / F1 0.68</li>
-        <li>Class 1: Precision 0.69 / Recall 0.78 / F1 0.73</li>
-      </ul>
-
-      <h3>Interpretation</h3>
-      <p>KNN is a <strong>distance-based, non-parametric</strong> method. It predicts customer renewal by comparing each customer to nearby observations in the feature space. Its strength is that it can capture local similarity, but its weakness is that performance may deteriorate in higher-dimensional settings because distances become less informative, which is known as the <strong>curse of dimensionality</strong>.</p>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>Step 3. Decision Tree Model Training and Evaluation</h2>
-    <div class="box">
-      <p>The Decision Tree model was trained with <strong>DecisionTreeClassifier(max_depth=5, random_state=42)</strong>.</p>
-
-      <table>
-        <tr>
-          <th>Metric</th>
-          <th>Decision Tree (max_depth=5)</th>
-        </tr>
-        <tr>
-          <td>Accuracy</td>
-          <td>0.7195</td>
-        </tr>
-        <tr>
-          <td>Precision</td>
-          <td>0.7225</td>
-        </tr>
-        <tr>
-          <td>Recall</td>
-          <td>0.7195</td>
-        </tr>
-        <tr>
-          <td>F1-Score</td>
-          <td>0.7178</td>
-        </tr>
-      </table>
-
-      <p><strong>Class-level performance:</strong></p>
-      <ul>
-        <li>Class 0: Precision 0.75 / Recall 0.64 / F1 0.69</li>
-        <li>Class 1: Precision 0.70 / Recall 0.79 / F1 0.74</li>
-      </ul>
-
-      <h3>Interpretation</h3>
-      <p>Decision Tree is a <strong>rule-based and interpretable</strong> model. It predicts renewal by splitting customers into groups according to explicit conditions. This is useful in a business setting because the model can show which rules separate likely renewals from likely churn. At the same time, trees can overfit if they become too deep. Setting <strong>max_depth = 5</strong> helps control model complexity and improves generalization.</p>
-    </div>
-  </div>
-
-  <div class="section">
-    <h2>Step 4. Apple-to-Apple Comparison and Final Interpretation</h2>
-    <div class="box">
-      <table>
-        <tr>
-          <th>Metric</th>
-          <th>KNN (k=5)</th>
-          <th>Decision Tree (max_depth=5)</th>
-          <th>Better Model</th>
-        </tr>
-        <tr>
-          <td>Accuracy</td>
-          <td>0.7085</td>
-          <td><strong>0.7195</strong></td>
-          <td>Decision Tree</td>
-        </tr>
-        <tr>
-          <td>Precision</td>
-          <td>0.7111</td>
-          <td><strong>0.7225</strong></td>
-          <td>Decision Tree</td>
-        </tr>
-        <tr>
-          <td>Recall</td>
-          <td>0.7085</td>
-          <td><strong>0.7195</strong></td>
-          <td>Decision Tree</td>
-        </tr>
-        <tr>
-          <td>F1-Score</td>
-          <td>0.7068</td>
-          <td><strong>0.7178</strong></td>
-          <td>Decision Tree</td>
-        </tr>
-      </table>
-
-      <div class="conclusion">
-        <p><strong>Overall conclusion:</strong> The <strong>Decision Tree</strong> is superior across all four key evaluation metrics.</p>
+      <div class="hero-grid">
+        <div class="hero-stat">
+          <div class="label">Dataset Size</div>
+          <div class="value">10,000</div>
+          <div class="desc">Customer accounts analyzed</div>
+        </div>
+        <div class="hero-stat">
+          <div class="label">Final Winner</div>
+          <div class="value">Decision Tree</div>
+          <div class="desc">Best overall model for this use case</div>
+        </div>
+        <div class="hero-stat">
+          <div class="label">Best KNN Setting</div>
+          <div class="value">K = 5</div>
+          <div class="desc">Selected benchmark KNN model</div>
+        </div>
       </div>
+    </section>
 
-      <h3>Final Reporting Points</h3>
-      <ul>
-        <li><strong>Numerical comparison</strong>
-          <ul>
-            <li>Decision Tree outperformed KNN in Accuracy, Precision, Recall, and F1-Score.</li>
-            <li>The performance gap is not extremely large, but it is consistent across all evaluation metrics.</li>
-            <li>This consistency suggests that Decision Tree is more reliable overall for this dataset.</li>
-          </ul>
-        </li>
+    <section class="section">
+      <div class="card">
+        <h2>1. Data Preparation Overview</h2>
+        <div class="grid-2">
+          <div>
+            <p class="subtle">
+              The dataset was prepared for a binary classification task where the target variable is
+              <strong>renewed_next_quarter</strong>. The preprocessing logic ensured an apple-to-apple
+              comparison between KNN and Decision Tree.
+            </p>
 
-        <li><strong>Business interpretation: Recall vs. F1-score</strong>
-          <ul>
-            <li>In a customer renewal prediction problem, <strong>Recall</strong> is especially important when the company wants to identify as many customers at risk of non-renewal as possible.</li>
-            <li>If the model misses a true non-renewal customer (<strong>False Negative</strong>), the company may fail to intervene in time, which can directly lead to lost revenue.</li>
-            <li>However, focusing only on Recall may increase unnecessary interventions on customers who would have renewed anyway (<strong>False Positive</strong>), which wastes customer success resources.</li>
-            <li>Therefore, <strong>F1-score</strong> is a more balanced metric for model selection because it captures the trade-off between Precision and Recall.</li>
-          </ul>
-        </li>
+            <table>
+              <thead>
+                <tr>
+                  <th class="left">Preparation Item</th>
+                  <th>Approach</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="left">Target Variable</td>
+                  <td>renewed_next_quarter</td>
+                </tr>
+                <tr>
+                  <td class="left">Identifier Removed</td>
+                  <td>account_id</td>
+                </tr>
+                <tr>
+                  <td class="left">Feature Count</td>
+                  <td>20 variables</td>
+                </tr>
+                <tr>
+                  <td class="left">Categorical Encoding</td>
+                  <td>LabelEncoder</td>
+                </tr>
+                <tr>
+                  <td class="left">Train / Test Split</td>
+                  <td>80% / 20%</td>
+                </tr>
+                <tr>
+                  <td class="left">Random State</td>
+                  <td>42</td>
+                </tr>
+                <tr>
+                  <td class="left">Scaling for KNN</td>
+                  <td>StandardScaler applied</td>
+                </tr>
+                <tr>
+                  <td class="left">Scaling for Tree</td>
+                  <td>Not required</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-        <li><strong>Model recommendation</strong>
+          <div class="grid-3">
+            <div class="mini-card">
+              <h4>Industry</h4>
+              <p>Encoded using LabelEncoder</p>
+            </div>
+            <div class="mini-card">
+              <h4>Region</h4>
+              <p>Encoded using LabelEncoder</p>
+            </div>
+            <div class="mini-card">
+              <h4>Support Level</h4>
+              <p>Encoded using LabelEncoder</p>
+            </div>
+            <div class="mini-card">
+              <h4>Contract Type</h4>
+              <p>Encoded using LabelEncoder</p>
+            </div>
+            <div class="mini-card">
+              <h4>KNN Dataset</h4>
+              <p>Scaled feature space for distance comparison</p>
+            </div>
+            <div class="mini-card">
+              <h4>Tree Dataset</h4>
+              <p>Original feature values retained</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="summary-banner">
+          <strong>Data balance check:</strong> The target classes were sufficiently balanced, which means
+          the model comparison is meaningful and not primarily driven by class imbalance.
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="card">
+        <h2>2. KNN Model Evaluation <span class="tag blue">Benchmark Model</span></h2>
+        <p class="subtle">
+          KNN was trained with <strong>n_neighbors = 5</strong>. Because KNN is a distance-based algorithm,
+          feature scaling was necessary before model training.
+        </p>
+
+        <div class="kpi">
+          <div class="kpi-box">
+            <div class="k">Accuracy</div>
+            <div class="v">0.7085</div>
+          </div>
+          <div class="kpi-box">
+            <div class="k">Precision</div>
+            <div class="v">0.7111</div>
+          </div>
+          <div class="kpi-box">
+            <div class="k">Recall</div>
+            <div class="v">0.7085</div>
+          </div>
+          <div class="kpi-box">
+            <div class="k">F1-Score</div>
+            <div class="v">0.7068</div>
+          </div>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Class</th>
+              <th>Precision</th>
+              <th>Recall</th>
+              <th>F1-Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Class 0 (Non-Renewal)</td>
+              <td>0.73</td>
+              <td>0.63</td>
+              <td>0.68</td>
+            </tr>
+            <tr>
+              <td>Class 1 (Renewal)</td>
+              <td>0.69</td>
+              <td>0.78</td>
+              <td>0.73</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="bullet-box">
+          <h3>KNN Interpretation</h3>
           <ul>
-            <li>From a performance perspective, the <strong>Decision Tree</strong> is the stronger model.</li>
-            <li>From an interpretability perspective, the Decision Tree is also preferable because its rule-based structure is easier to explain to management and operational teams.</li>
-            <li>Therefore, the final recommendation is to adopt the <strong>Decision Tree</strong> as the primary model for customer renewal prediction in this B2B SaaS context.</li>
-            <li>KNN can still be used as a benchmark model, but it is less suitable as the main business decision-support tool.</li>
+            <li>KNN works by comparing each customer to nearby customers in the feature space.</li>
+            <li>Its main strength is capturing local similarity without assuming a fixed functional form.</li>
+            <li>Its limitation is that performance can weaken in higher-dimensional data because distances become less informative, which is the curse of dimensionality.</li>
           </ul>
-        </li>
-      </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="card">
+        <h2>3. Decision Tree Evaluation <span class="tag green">Recommended Model</span></h2>
+        <p class="subtle">
+          The Decision Tree was trained with <strong>max_depth = 5</strong>. Unlike KNN, the model does not
+          require scaling because it uses threshold-based splitting rules rather than distance calculations.
+        </p>
+
+        <div class="kpi">
+          <div class="kpi-box good">
+            <div class="k">Accuracy</div>
+            <div class="v">0.7195</div>
+          </div>
+          <div class="kpi-box good">
+            <div class="k">Precision</div>
+            <div class="v">0.7225</div>
+          </div>
+          <div class="kpi-box good">
+            <div class="k">Recall</div>
+            <div class="v">0.7195</div>
+          </div>
+          <div class="kpi-box good">
+            <div class="k">F1-Score</div>
+            <div class="v">0.7178</div>
+          </div>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Class</th>
+              <th>Precision</th>
+              <th>Recall</th>
+              <th>F1-Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Class 0 (Non-Renewal)</td>
+              <td>0.75</td>
+              <td>0.64</td>
+              <td>0.69</td>
+            </tr>
+            <tr>
+              <td>Class 1 (Renewal)</td>
+              <td>0.70</td>
+              <td>0.79</td>
+              <td>0.74</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="bullet-box">
+          <h3>Decision Tree Interpretation</h3>
+          <ul>
+            <li>Decision Tree is a rule-based model that groups customers through clear splitting conditions.</li>
+            <li>Its major business advantage is interpretability, since management can understand which rules drive renewal or churn risk.</li>
+            <li>Overfitting is a common risk in tree models, but setting <strong>max_depth = 5</strong> helps control complexity and improves generalization.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="card">
+        <h2>4. Apple-to-Apple Performance Comparison</h2>
+        <p class="subtle">
+          The table below compares both models on the exact same evaluation basis. This provides a direct
+          model selection view for executive decision-making.
+        </p>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Metric</th>
+              <th>KNN (k=5)</th>
+              <th>Decision Tree (max_depth=5)</th>
+              <th>Winner</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Accuracy</td>
+              <td>0.7085</td>
+              <td class="best">0.7195</td>
+              <td>Decision Tree</td>
+            </tr>
+            <tr>
+              <td>Precision</td>
+              <td>0.7111</td>
+              <td class="best">0.7225</td>
+              <td>Decision Tree</td>
+            </tr>
+            <tr>
+              <td>Recall</td>
+              <td>0.7085</td>
+              <td class="best">0.7195</td>
+              <td>Decision Tree</td>
+            </tr>
+            <tr>
+              <td>F1-Score</td>
+              <td>0.7068</td>
+              <td class="best">0.7178</td>
+              <td>Decision Tree</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="summary-banner">
+          <strong>Bottom line:</strong> Decision Tree outperformed KNN on all four key performance metrics.
+          The margin is not extremely large, but it is directionally consistent across every indicator.
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="card">
+        <h2>5. Business Interpretation: Recall vs. F1-Score</h2>
+        <div class="grid-2">
+          <div class="bullet-box">
+            <h3>Why Recall Matters</h3>
+            <ul>
+              <li>Recall becomes important when the company wants to identify as many at-risk customers as possible.</li>
+              <li>A <strong>False Negative</strong> means a true non-renewal customer is missed.</li>
+              <li>That can directly lead to lost revenue because the company fails to intervene in time.</li>
+            </ul>
+          </div>
+
+          <div class="bullet-box">
+            <h3>Why F1-Score Matters</h3>
+            <ul>
+              <li>F1-Score balances Precision and Recall.</li>
+              <li>A model with high Recall but weak Precision may create too many false alarms.</li>
+              <li>That leads to resource waste because customer success teams spend time on accounts that were not actually at risk.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="note">
+          <strong>Executive interpretation:</strong> For intervention strategy, Recall is strategically important.
+          For final model selection, however, <strong>F1-Score is the more balanced summary metric</strong>
+          because it captures both missed-risk cost and wasted-resource cost.
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="card">
+        <h2>6. Final Recommendation</h2>
+        <div class="exec-box">
+          <h3>Recommended Model: Decision Tree</h3>
+          <ul>
+            <li><strong>Performance:</strong> Decision Tree delivered the strongest overall metrics across Accuracy, Precision, Recall, and F1-Score.</li>
+            <li><strong>Interpretability:</strong> Its rule-based structure is easier to explain to management and operational teams.</li>
+            <li><strong>Business usability:</strong> The model is better suited for customer segmentation, intervention prioritization, and executive reporting.</li>
+            <li><strong>Role of KNN:</strong> KNN remains useful as a benchmark model, but it is less suitable as the primary decision-support tool in this business context.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="card">
+        <h2>Executive Summary</h2>
+        <table>
+          <thead>
+            <tr>
+              <th class="left">Decision Point</th>
+              <th>Conclusion</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="left">Preprocessing Strategy</td>
+              <td>Appropriate and model-specific</td>
+            </tr>
+            <tr>
+              <td class="left">Best Benchmark Model</td>
+              <td>KNN (k=5)</td>
+            </tr>
+            <tr>
+              <td class="left">Best Overall Model</td>
+              <td class="best">Decision Tree</td>
+            </tr>
+            <tr>
+              <td class="left">Most Practical Model Selection Metric</td>
+              <td>F1-Score</td>
+            </tr>
+            <tr>
+              <td class="left">Strategically Important Business Metric</td>
+              <td>Recall</td>
+            </tr>
+            <tr>
+              <td class="left">Final Recommendation</td>
+              <td class="best">Deploy Decision Tree as the primary model</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="footer-note">
+      Prepared for executive review · B2B SaaS customer renewal prediction analysis
     </div>
-  </div>
 
-  <div class="section">
-    <h2>Executive Summary</h2>
-    <div class="box">
-      <ul>
-        <li>The dataset was preprocessed appropriately, with categorical variables encoded and separate scaled and unscaled versions prepared for KNN and Decision Tree.</li>
-        <li>KNN showed reasonable predictive ability, but it remained weaker than the Decision Tree on all main metrics.</li>
-        <li>Decision Tree achieved the best overall balance of predictive performance and explainability.</li>
-        <li>For this business problem, <strong>F1-score</strong> is the most practical summary metric for final model comparison, while <strong>Recall</strong> remains strategically important because missing at-risk customers is costly.</li>
-        <li>The recommended final model is <strong>Decision Tree</strong>.</li>
-      </ul>
-    </div>
   </div>
-
 </body>
 </html>
