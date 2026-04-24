@@ -46,6 +46,7 @@
       pointer-events: none;
       z-index: -2;
     }
+
     body::after {
       content: "";
       position: fixed;
@@ -63,6 +64,7 @@
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.7'/%3E%3C/svg%3E");
       z-index: 999;
     }
+
     nav {
       position: fixed;
       top: 0;
@@ -116,6 +118,7 @@
       transform: rotate(-3deg);
       box-shadow: 0 0 24px rgba(182,255,0,0.35);
     }
+
     h1 {
       font-family: 'Black Han Sans', sans-serif;
       font-size: clamp(56px, 11vw, 150px);
@@ -206,7 +209,6 @@
       animation: roll 16s linear infinite;
     }
 
-
     .split {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -244,7 +246,6 @@
       box-shadow: 18px 18px 0 var(--acid);
       transition: 0.3s;
     }
-
 
     .poster:hover {
       transform: rotate(-2deg) scale(1.03);
@@ -332,7 +333,6 @@
       background: rgba(182,255,0,0.04);
     }
 
-
     .comment strong {
       color: var(--blue);
       display: block;
@@ -386,7 +386,6 @@
     .s1 { top: 18%; left: 8%; }
     .s2 { bottom: 18%; right: 10%; background: var(--blue); box-shadow: 6px 6px 0 var(--hot); }
 
-
     @keyframes glitch {
       0%, 100% { transform: translate(0); }
       20% { transform: translate(-2px, 2px); }
@@ -417,7 +416,6 @@
       .split, .grid {
         grid-template-columns: 1fr;
       }
-
 
       h1 {
         letter-spacing: -2px;
@@ -525,41 +523,69 @@
         <h2>지하세계<br />방명록</h2>
         <p>
           닉네임과 댓글을 남겨주세요.
-          입력한 방명록은 현재 브라우저에 저장됩니다.
+          입력한 방명록은 모든 방문자에게 실시간으로 공유됩니다.
         </p>
       </div>
 
       <div class="guestbook">
         <div>&gt; GUESTBOOK SYSTEM ONLINE</div>
-        <div>&gt; 팬심 기록 대기 중...</div>
+        <div>&gt; 실시간 팬심 기록 대기 중...</div>
 
         <input id="guestName" type="text" placeholder="닉네임" />
         <textarea id="guestComment" rows="4" placeholder="댓글을 남겨주세요"></textarea>
 
         <button onclick="addComment()">방명록 남기기</button>
 
-        <div class="comments" id="comments"></div>
+        <div class="comments" id="comments">
+          <div class="comment">
+            <strong>SYSTEM</strong>
+            방명록을 불러오는 중입니다...
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <footer>
     <div>© 2026 Underground Rockstar Fanclub</div>
-    <div>Made for GitHub Pages / HTML + CSS + JS</div>
+    <div>Made for GitHub Pages / HTML + CSS + Firebase</div>
   </footer>
 
   <button class="floating" onclick="scrollToTop()">TOP</button>
 
-  <script>
-    const STORAGE_KEY = "rockstar_guestbook_comments";
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      query,
+      orderBy,
+      serverTimestamp,
+      onSnapshot
+    } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyChqV8SIsOlX78Hv8wDAfZY-BTrenVWQqE",
+      authDomain: "rock-cf9e8.firebaseapp.com",
+      projectId: "rock-cf9e8",
+      storageBucket: "rock-cf9e8.firebasestorage.app",
+      messagingSenderId: "326872941439",
+      appId: "1:326872941439:web:3ecf382a82d1a0593d504a",
+      measurementId: "G-Y0B3CEPPWQ"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const commentsRef = collection(db, "guestbook_comments");
 
     document.addEventListener("mousemove", (e) => {
       document.body.style.setProperty("--x", `${e.clientX}px`);
       document.body.style.setProperty("--y", `${e.clientY}px`);
     });
 
-    function escapeHTML(text) {
-      return text
+    function escapeHTML(text = "") {
+      return String(text)
         .replaceAll("&", "&amp;")
         .replaceAll("<", "&lt;")
         .replaceAll(">", "&gt;")
@@ -567,40 +593,7 @@
         .replaceAll("'", "&#039;");
     }
 
-    function getComments() {
-      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-    }
-
-    function saveComments(comments) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(comments));
-    }
-
-    function renderComments() {
-      const commentsBox = document.getElementById("comments");
-      const comments = getComments();
-
-      if (comments.length === 0) {
-        commentsBox.innerHTML = `
-          <div class="comment">
-            <strong>SYSTEM</strong>
-            아직 방명록이 없습니다. 첫 팬심을 남겨주세요.
-          </div>
-        `;
-        return;
-      }
-
-      commentsBox.innerHTML = comments
-        .map((item) => `
-          <div class="comment">
-            <strong>${escapeHTML(item.name)}</strong>
-            ${escapeHTML(item.comment)}
-            <span>${escapeHTML(item.date)}</span>
-          </div>
-        `)
-        .join("");
-    }
-    
-    function addComment() {
+    window.addComment = async function () {
       const nameInput = document.getElementById("guestName");
       const commentInput = document.getElementById("guestComment");
 
@@ -612,23 +605,64 @@
         return;
       }
 
-      const comments = getComments();
+      try {
+        await addDoc(commentsRef, {
+          name,
+          comment,
+          createdAt: serverTimestamp()
+        });
 
-      comments.unshift({
-        name,
-        comment,
-        date: new Date().toLocaleString("ko-KR")
-      });
+        nameInput.value = "";
+        commentInput.value = "";
+      } catch (error) {
+        console.error("댓글 저장 오류:", error);
+        alert("댓글 저장에 실패했습니다. Firebase 설정을 확인해주세요.");
+      }
+    };
 
-      saveComments(comments);
+    const q = query(commentsRef, orderBy("createdAt", "desc"));
 
-      nameInput.value = "";
-      commentInput.value = "";
+    onSnapshot(q, (snapshot) => {
+      const commentsBox = document.getElementById("comments");
 
-      renderComments();
-    }
+      if (snapshot.empty) {
+        commentsBox.innerHTML = `
+          <div class="comment">
+            <strong>SYSTEM</strong>
+            아직 방명록이 없습니다. 첫 팬심을 남겨주세요.
+          </div>
+        `;
+        return;
+      }
 
-    function chaosMode() {
+      commentsBox.innerHTML = snapshot.docs.map((doc) => {
+        const item = doc.data();
+
+        const date = item.createdAt?.toDate
+          ? item.createdAt.toDate().toLocaleString("ko-KR")
+          : "방금 전";
+
+        return `
+          <div class="comment">
+            <strong>${escapeHTML(item.name)}</strong>
+            ${escapeHTML(item.comment)}
+            <span>${escapeHTML(date)}</span>
+          </div>
+        `;
+      }).join("");
+    }, (error) => {
+      console.error("댓글 불러오기 오류:", error);
+
+      const commentsBox = document.getElementById("comments");
+      commentsBox.innerHTML = `
+        <div class="comment">
+          <strong>ERROR</strong>
+          방명록을 불러오지 못했습니다. Firestore Rules를 확인해주세요.
+        </div>
+      `;
+    });
+
+    window.chaosMode = function () {
       const colors = ["#ff2bd6", "#b6ff00", "#00e5ff", "#fffb00", "#ff4d00"];
 
       document.body.style.background =
@@ -638,16 +672,14 @@
         `rotate(${Math.random() * 6 - 3}deg) scale(${1 + Math.random() * 0.08})`;
 
       alert("CHAOS MODE ACTIVATED: 홍대 지하세계 주파수 연결 완료.");
-    }
+    };
 
-    function scrollToTop() {
+    window.scrollToTop = function () {
       window.scrollTo({
         top: 0,
         behavior: "smooth"
       });
-    }
-
-    renderComments();
+    };
   </script>
 </body>
 </html>
