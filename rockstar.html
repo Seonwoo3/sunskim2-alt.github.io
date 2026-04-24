@@ -46,7 +46,6 @@
       pointer-events: none;
       z-index: -2;
     }
-
     body::after {
       content: "";
       position: fixed;
@@ -64,7 +63,6 @@
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.7'/%3E%3C/svg%3E");
       z-index: 999;
     }
-
     nav {
       position: fixed;
       top: 0;
@@ -76,7 +74,7 @@
       z-index: 100;
       mix-blend-mode: difference;
     }
-    
+
     .logo {
       font-weight: 900;
       letter-spacing: -1px;
@@ -87,6 +85,7 @@
       text-decoration: none;
       margin-left: 20px;
       font-size: 14px;
+      font-weight: 900;
     }
 
     nav a:hover {
@@ -117,7 +116,6 @@
       transform: rotate(-3deg);
       box-shadow: 0 0 24px rgba(182,255,0,0.35);
     }
-
     h1 {
       font-family: 'Black Han Sans', sans-serif;
       font-size: clamp(56px, 11vw, 150px);
@@ -128,6 +126,7 @@
         -4px -4px 0 var(--blue);
       animation: glitch 2.2s infinite;
     }
+
     .subtitle {
       margin-top: 30px;
       font-size: clamp(18px, 2.4vw, 32px);
@@ -151,12 +150,41 @@
       text-decoration: none;
       transition: 0.2s;
       transform: skew(-8deg);
+      cursor: pointer;
     }
+
     button:hover, .btn:hover {
       background: var(--hot);
       color: black;
       border-color: var(--hot);
       box-shadow: 8px 8px 0 var(--acid);
+    }
+
+    .insta-btn {
+      position: relative;
+      overflow: hidden;
+      border-color: var(--hot);
+      background:
+        linear-gradient(135deg, rgba(255,43,214,0.18), rgba(0,229,255,0.12));
+      box-shadow: 0 0 24px rgba(255,43,214,0.4);
+    }
+
+    .insta-btn::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.8), transparent);
+      transform: translateX(-120%) rotate(18deg);
+      transition: 0.45s;
+    }
+
+    .insta-btn:hover::before {
+      transform: translateX(120%) rotate(18deg);
+    }
+
+    .insta-btn span {
+      position: relative;
+      z-index: 1;
     }
 
     .marquee {
@@ -177,6 +205,8 @@
       display: inline-block;
       animation: roll 16s linear infinite;
     }
+
+
     .split {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -198,19 +228,6 @@
       color: #ddd;
     }
 
-    .card {
-      border: 1px solid #333;
-      padding: 28px;
-      background: rgba(255,255,255,0.04);
-      backdrop-filter: blur(12px);
-      transition: 0.25s;
-    }
-    .card:hover {
-      transform: translateY(-10px) rotate(-1deg);
-      border-color: var(--hot);
-      box-shadow: 12px 12px 0 var(--hot);
-    }
-
     .poster {
       aspect-ratio: 3/4;
       border: 3px solid white;
@@ -227,6 +244,7 @@
       box-shadow: 18px 18px 0 var(--acid);
       transition: 0.3s;
     }
+
 
     .poster:hover {
       transform: rotate(-2deg) scale(1.03);
@@ -257,6 +275,7 @@
       transform: translateX(-100%);
       transition: 0.4s;
     }
+
     .fan-card:hover::before {
       transform: translateX(100%);
     }
@@ -267,7 +286,7 @@
       color: var(--blue);
     }
 
-    .terminal {
+    .guestbook {
       width: 100%;
       background: #050505;
       border: 1px solid var(--acid);
@@ -275,12 +294,12 @@
       box-shadow: 0 0 40px rgba(182,255,0,0.2);
       font-family: monospace;
       color: var(--acid);
-      min-height: 260px;
     }
-    
-    .terminal input {
+
+    .guestbook input,
+    .guestbook textarea {
       width: 100%;
-      margin-top: 18px;
+      margin-top: 14px;
       background: transparent;
       border: none;
       border-bottom: 1px solid var(--acid);
@@ -288,6 +307,43 @@
       padding: 12px 0;
       outline: none;
       font-size: 16px;
+      resize: none;
+      font-family: inherit;
+    }
+
+    .guestbook button {
+      margin-top: 18px;
+      width: 100%;
+      border-color: var(--acid);
+      color: var(--acid);
+    }
+
+    .comments {
+      margin-top: 24px;
+      max-height: 280px;
+      overflow-y: auto;
+      display: grid;
+      gap: 14px;
+    }
+
+    .comment {
+      border: 1px solid rgba(182,255,0,0.45);
+      padding: 14px;
+      background: rgba(182,255,0,0.04);
+    }
+
+
+    .comment strong {
+      color: var(--blue);
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .comment span {
+      color: #777;
+      font-size: 12px;
+      display: block;
+      margin-top: 8px;
     }
 
     footer {
@@ -314,8 +370,9 @@
       font-weight: 900;
       box-shadow: 0 0 30px rgba(182,255,0,0.6);
       animation: pulse 1.4s infinite;
+      transform: none;
     }
-    
+
     .sticker {
       position: absolute;
       padding: 10px 16px;
@@ -328,6 +385,7 @@
 
     .s1 { top: 18%; left: 8%; }
     .s2 { bottom: 18%; right: 10%; background: var(--blue); box-shadow: 6px 6px 0 var(--hot); }
+
 
     @keyframes glitch {
       0%, 100% { transform: translate(0); }
@@ -342,7 +400,6 @@
       to { transform: translateX(-50%); }
     }
 
-    
     @keyframes pulse {
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.08); }
@@ -360,6 +417,7 @@
       .split, .grid {
         grid-template-columns: 1fr;
       }
+
 
       h1 {
         letter-spacing: -2px;
@@ -380,7 +438,7 @@
     <div>
       <a href="#about">ABOUT</a>
       <a href="#rules">RULES</a>
-      <a href="#join">JOIN</a>
+      <a href="#guestbook">GUESTBOOK</a>
     </div>
   </nav>
 
@@ -401,14 +459,24 @@
     </p>
 
     <div class="cta">
-      <a class="btn" href="#join">팬클럽 가입하기</a>
+      <a class="btn" href="#guestbook">방명록 남기기</a>
+
+      <a
+        class="btn insta-btn"
+        href="https://www.instagram.com/zenzenakii?igsh=d3Z2cGhveWMzYW1v"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span>⚡ ROCKSTAR INSTAGRAM ⚡</span>
+      </a>
+
       <button onclick="chaosMode()">CHAOS MODE</button>
     </div>
 
     <div class="marquee">
       <span>
-        ★ UNDERGROUND ★ ROCK ★ FANCLUB ★ HONGDAE ★ RIFF ★ NOISE ★ LOVE ★
-        UNDERGROUND ★ ROCK ★ FANCLUB ★ HONGDAE ★ RIFF ★ NOISE ★ LOVE ★
+        ★ UNDERGROUND ★ ROCK ★ FANCLUB ★ INSTAGRAM ★ RIFF ★ NOISE ★ LOVE ★
+        UNDERGROUND ★ ROCK ★ FANCLUB ★ INSTAGRAM ★ RIFF ★ NOISE ★ LOVE ★
       </span>
     </div>
   </section>
@@ -431,7 +499,7 @@
       </div>
     </div>
   </section>
-  
+
   <section id="rules">
     <div class="grid">
       <div class="fan-card">
@@ -451,29 +519,26 @@
     </div>
   </section>
 
-  <section id="join">
+  <section id="guestbook">
     <div class="split">
       <div>
-        <h2>입단 테스트</h2>
+        <h2>지하세계<br />방명록</h2>
         <p>
-          아래 터미널에 당신의 팬클럽 닉네임을 입력하세요.
-          시스템이 당신의 지하세계 락스타 적합도를 대충 진지하게 판정합니다.
+          닉네임과 댓글을 남겨주세요.
+          입력한 방명록은 현재 브라우저에 저장됩니다.
         </p>
       </div>
-      
-      <div class="terminal">
-        <div id="terminalText">
-          &gt; FANCLUB SYSTEM BOOTING...<br />
-          &gt; 지하세계 입장권 확인 중...<br />
-          &gt; 닉네임을 입력하세요.
-        </div>
 
-        <input
-          id="nickname"
-          type="text"
-          placeholder="예: 베이스치는불량감자"
-          onkeydown="checkEnter(event)"
-        />
+      <div class="guestbook">
+        <div>&gt; GUESTBOOK SYSTEM ONLINE</div>
+        <div>&gt; 팬심 기록 대기 중...</div>
+
+        <input id="guestName" type="text" placeholder="닉네임" />
+        <textarea id="guestComment" rows="4" placeholder="댓글을 남겨주세요"></textarea>
+
+        <button onclick="addComment()">방명록 남기기</button>
+
+        <div class="comments" id="comments"></div>
       </div>
     </div>
   </section>
@@ -486,45 +551,86 @@
   <button class="floating" onclick="scrollToTop()">TOP</button>
 
   <script>
-    const messages = [
-      "당신은 이미 지하 3층 VIP입니다.",
-      "홍대 앞 전봇대에 붙은 포스터가 당신을 기억합니다.",
-      "팬심 수치 999%. 정상 범위는 아닙니다.",
-      "오늘 밤 앵콜 요청 담당으로 임명되었습니다.",
-      "당신의 닉네임에서 기타 피드백 소리가 납니다."
-    ];
+    const STORAGE_KEY = "rockstar_guestbook_comments";
 
-    
     document.addEventListener("mousemove", (e) => {
       document.body.style.setProperty("--x", `${e.clientX}px`);
       document.body.style.setProperty("--y", `${e.clientY}px`);
     });
 
-    function checkEnter(event) {
-      if (event.key === "Enter") {
-        const nickname = document.getElementById("nickname").value.trim();
-        const terminal = document.getElementById("terminalText");
+    function escapeHTML(text) {
+      return text
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
 
-        if (!nickname) {
-          terminal.innerHTML += "<br />&gt; 닉네임 없이는 입장 불가. 다시 입력.";
-          return;
-        }
+    function getComments() {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    }
 
-        const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+    function saveComments(comments) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(comments));
+    }
 
-        terminal.innerHTML += `
-          <br />&gt; 닉네임 확인: ${nickname}
-          <br />&gt; 팬심 스캔 중...
-          <br />&gt; 결과: ${randomMessage}
-          <br />&gt; WELCOME TO THE UNDERGROUND.
+    function renderComments() {
+      const commentsBox = document.getElementById("comments");
+      const comments = getComments();
+
+      if (comments.length === 0) {
+        commentsBox.innerHTML = `
+          <div class="comment">
+            <strong>SYSTEM</strong>
+            아직 방명록이 없습니다. 첫 팬심을 남겨주세요.
+          </div>
         `;
-
-        document.getElementById("nickname").value = "";
+        return;
       }
+
+      commentsBox.innerHTML = comments
+        .map((item) => `
+          <div class="comment">
+            <strong>${escapeHTML(item.name)}</strong>
+            ${escapeHTML(item.comment)}
+            <span>${escapeHTML(item.date)}</span>
+          </div>
+        `)
+        .join("");
     }
     
+    function addComment() {
+      const nameInput = document.getElementById("guestName");
+      const commentInput = document.getElementById("guestComment");
+
+      const name = nameInput.value.trim();
+      const comment = commentInput.value.trim();
+
+      if (!name || !comment) {
+        alert("닉네임과 댓글을 둘 다 입력해주세요.");
+        return;
+      }
+
+      const comments = getComments();
+
+      comments.unshift({
+        name,
+        comment,
+        date: new Date().toLocaleString("ko-KR")
+      });
+
+      saveComments(comments);
+
+      nameInput.value = "";
+      commentInput.value = "";
+
+      renderComments();
+    }
+
     function chaosMode() {
       const colors = ["#ff2bd6", "#b6ff00", "#00e5ff", "#fffb00", "#ff4d00"];
+
       document.body.style.background =
         `linear-gradient(135deg, ${colors[Math.floor(Math.random() * colors.length)]}, #050505 45%, ${colors[Math.floor(Math.random() * colors.length)]})`;
 
@@ -540,6 +646,8 @@
         behavior: "smooth"
       });
     }
+
+    renderComments();
   </script>
 </body>
 </html>
