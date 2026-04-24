@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Underground Rockstar Chat</title>
+  <title>군필여고생의 직업은 지하세계 락스타 | Fanclub</title>
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;700;900&display=swap');
@@ -15,20 +15,11 @@
       --blue: #00e5ff;
       --white: #f5f5f5;
       --gray: #888;
-      --chat-bg: #101010;
-      --my-msg: #b6ff00;
-      --other-msg: #1f1f1f;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       background: var(--bg);
@@ -80,10 +71,7 @@
       mix-blend-mode: difference;
     }
 
-    .logo {
-      font-weight: 900;
-      letter-spacing: -1px;
-    }
+    .logo { font-weight: 900; letter-spacing: -1px; }
 
     nav a {
       color: white;
@@ -93,9 +81,7 @@
       font-weight: 900;
     }
 
-    nav a:hover {
-      color: var(--acid);
-    }
+    nav a:hover { color: var(--acid); }
 
     section {
       min-height: 100vh;
@@ -127,9 +113,7 @@
       font-size: clamp(56px, 11vw, 150px);
       line-height: 0.9;
       letter-spacing: -5px;
-      text-shadow:
-        4px 4px 0 var(--hot),
-        -4px -4px 0 var(--blue);
+      text-shadow: 4px 4px 0 var(--hot), -4px -4px 0 var(--blue);
       animation: glitch 2.2s infinite;
     }
 
@@ -174,10 +158,18 @@
       box-shadow: 0 0 24px rgba(255,43,214,0.4);
     }
 
-    .insta-btn span {
-      position: relative;
-      z-index: 1;
+    .insta-btn::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background: linear-gradient(120deg, transparent, rgba(255,255,255,0.8), transparent);
+      transform: translateX(-120%) rotate(18deg);
+      transition: 0.45s;
     }
+
+    .insta-btn:hover::before { transform: translateX(120%) rotate(18deg); }
+
+    .insta-btn span { position: relative; z-index: 1; }
 
     .marquee {
       position: absolute;
@@ -200,7 +192,7 @@
 
     .split {
       display: grid;
-      grid-template-columns: 0.85fr 1.15fr;
+      grid-template-columns: 1fr 1fr;
       gap: 60px;
       align-items: center;
       width: 100%;
@@ -219,29 +211,68 @@
       color: #ddd;
     }
 
-    .sticker {
-      position: absolute;
-      padding: 10px 16px;
-      background: var(--hot);
-      color: black;
-      font-weight: 900;
-      transform: rotate(-8deg);
-      box-shadow: 6px 6px 0 var(--blue);
+    .poster {
+      aspect-ratio: 3/4;
+      border: 3px solid white;
+      background:
+        radial-gradient(circle at 70% 30%, var(--hot), transparent 24%),
+        radial-gradient(circle at 20% 80%, var(--blue), transparent 26%),
+        linear-gradient(135deg, #111, #000);
+      display: grid;
+      place-items: center;
+      font-family: 'Black Han Sans', sans-serif;
+      font-size: clamp(36px, 5vw, 80px);
+      text-align: center;
+      transform: rotate(3deg);
+      box-shadow: 18px 18px 0 var(--acid);
+      transition: 0.3s;
     }
 
-    .s1 { top: 18%; left: 8%; }
-    .s2 { bottom: 18%; right: 10%; background: var(--blue); box-shadow: 6px 6px 0 var(--hot); }
+    .poster:hover {
+      transform: rotate(-2deg) scale(1.03);
+      filter: contrast(1.4);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      width: 100%;
+    }
+
+    .fan-card {
+      min-height: 220px;
+      padding: 28px;
+      border: 1px solid #333;
+      background: #0e0e0e;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .fan-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, transparent, rgba(255,43,214,0.35), transparent);
+      transform: translateX(-100%);
+      transition: 0.4s;
+    }
+
+    .fan-card:hover::before { transform: translateX(100%); }
+
+    .fan-card h3 {
+      font-size: 28px;
+      margin-bottom: 14px;
+      color: var(--blue);
+    }
 
     .chat-phone {
       width: 100%;
       max-width: 520px;
       height: 720px;
-      margin-left: auto;
-      border: 3px solid var(--white);
+      border: 3px solid white;
       background: #050505;
-      box-shadow:
-        18px 18px 0 var(--acid),
-        0 0 50px rgba(255,43,214,0.25);
+      box-shadow: 18px 18px 0 var(--acid), 0 0 50px rgba(255,43,214,0.25);
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -250,9 +281,7 @@
 
     .chat-header {
       padding: 18px;
-      background:
-        linear-gradient(135deg, rgba(255,43,214,0.35), rgba(0,229,255,0.25)),
-        #111;
+      background: linear-gradient(135deg, rgba(255,43,214,0.35), rgba(0,229,255,0.25)), #111;
       border-bottom: 1px solid #333;
       display: flex;
       justify-content: space-between;
@@ -261,7 +290,7 @@
 
     .chat-title {
       font-weight: 900;
-      color: var(--white);
+      color: white;
       line-height: 1.2;
     }
 
@@ -315,7 +344,7 @@
       background:
         radial-gradient(circle at 15% 10%, rgba(255,43,214,0.15), transparent 24%),
         radial-gradient(circle at 80% 90%, rgba(0,229,255,0.13), transparent 24%),
-        var(--chat-bg);
+        #101010;
     }
 
     .message-row {
@@ -336,10 +365,12 @@
 
     .sender {
       font-size: 12px;
-      color: var(--blue);
-      margin-bottom: 5px;
       font-weight: 900;
+      margin-bottom: 5px;
     }
+
+    .mine .sender { color: var(--hot); }
+    .other .sender { color: var(--blue); }
 
     .bubble {
       padding: 12px 14px;
@@ -348,18 +379,17 @@
       line-height: 1.45;
       word-break: break-word;
       white-space: pre-wrap;
-      position: relative;
     }
 
     .mine .bubble {
-      background: var(--my-msg);
+      background: var(--acid);
       color: black;
       border-bottom-right-radius: 4px;
       box-shadow: 5px 5px 0 rgba(255,43,214,0.7);
     }
 
     .other .bubble {
-      background: var(--other-msg);
+      background: #1f1f1f;
       color: white;
       border: 1px solid #333;
       border-bottom-left-radius: 4px;
@@ -384,7 +414,6 @@
     .chat-input-area textarea {
       resize: none;
       height: 48px;
-      max-height: 100px;
       background: #111;
       border: 1px solid #333;
       color: white;
@@ -392,11 +421,6 @@
       outline: none;
       font-family: inherit;
       font-size: 15px;
-    }
-
-    .chat-input-area textarea:focus {
-      border-color: var(--acid);
-      box-shadow: 0 0 18px rgba(182,255,0,0.2);
     }
 
     .send-btn {
@@ -443,6 +467,19 @@
       transform: none;
     }
 
+    .sticker {
+      position: absolute;
+      padding: 10px 16px;
+      background: var(--hot);
+      color: black;
+      font-weight: 900;
+      transform: rotate(-8deg);
+      box-shadow: 6px 6px 0 var(--blue);
+    }
+
+    .s1 { top: 18%; left: 8%; }
+    .s2 { bottom: 18%; right: 10%; background: var(--blue); box-shadow: 6px 6px 0 var(--hot); }
+
     @keyframes glitch {
       0%, 100% { transform: translate(0); }
       20% { transform: translate(-2px, 2px); }
@@ -461,34 +498,16 @@
       50% { transform: scale(1.08); }
     }
 
-    @media (max-width: 900px) {
-      nav {
-        padding: 16px;
-      }
-
-      nav div:last-child {
-        display: none;
-      }
-
-      .split {
-        grid-template-columns: 1fr;
-      }
-
-      h1 {
-        letter-spacing: -2px;
-      }
-
-      section {
-        padding: 100px 24px;
-      }
-
+    @media (max-width: 820px) {
+      nav { padding: 16px; }
+      nav div:last-child { display: none; }
+      .split, .grid { grid-template-columns: 1fr; }
+      h1 { letter-spacing: -2px; }
+      section { padding: 100px 24px; }
       .chat-phone {
         height: 680px;
-        margin: 0 auto;
         transform: none;
-        box-shadow:
-          10px 10px 0 var(--acid),
-          0 0 40px rgba(255,43,214,0.25);
+        box-shadow: 10px 10px 0 var(--acid), 0 0 40px rgba(255,43,214,0.25);
       }
     }
   </style>
@@ -500,13 +519,13 @@
   <nav>
     <div class="logo">UNDERGROUND ROCKSTAR CLUB</div>
     <div>
-      <a href="#home">HOME</a>
-      <a href="#chat">LIVE CHAT</a>
-      <a href="https://www.instagram.com/zenzenakii?igsh=d3Z2cGhveWMzYW1v" target="_blank">INSTAGRAM</a>
+      <a href="#about">ABOUT</a>
+      <a href="#rules">RULES</a>
+      <a href="#guestbook">LIVE CHAT</a>
     </div>
   </nav>
 
-  <section class="hero" id="home">
+  <section class="hero">
     <div class="sticker s1">SSGSSGSSGSSGSSGSSGSSGSSG</div>
     <div class="sticker s2">NO BORING FANDOM</div>
 
@@ -523,28 +542,73 @@
     </p>
 
     <div class="cta">
-      <a class="btn" href="#chat">채팅방 입장</a>
-      <a class="btn insta-btn" href="https://www.instagram.com/zenzenakii?igsh=d3Z2cGhveWMzYW1v" target="_blank" rel="noopener noreferrer">
+      <a class="btn" href="#guestbook">채팅방 입장</a>
+
+      <a
+        class="btn insta-btn"
+        href="https://www.instagram.com/zenzenakii?igsh=d3Z2cGhveWMzYW1v"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
         <span>⚡ ROCKSTAR INSTAGRAM ⚡</span>
       </a>
+
       <button onclick="chaosMode()">CHAOS MODE</button>
     </div>
 
     <div class="marquee">
       <span>
-        ★ LIVE CHAT ★ UNDERGROUND ★ ROCK ★ FANCLUB ★ BASS ★ NOISE ★ LOVE ★
-        LIVE CHAT ★ UNDERGROUND ★ ROCK ★ FANCLUB ★ BASS ★ NOISE ★ LOVE ★
+        ★ UNDERGROUND ★ ROCK ★ FANCLUB ★ INSTAGRAM ★ RIFF ★ NOISE ★ LOVE ★
+        UNDERGROUND ★ ROCK ★ FANCLUB ★ INSTAGRAM ★ RIFF ★ NOISE ★ LOVE ★
       </span>
     </div>
   </section>
 
-  <section id="chat">
+  <section id="about">
+    <div class="split">
+      <div>
+        <h2>우리는<br />얌전하지 않다</h2>
+        <p>
+          이 팬클럽은 그냥 응원봉 흔드는 곳이 아닙니다.
+          낡은 스티커, 찢어진 포스터, 새벽 2시의 기타 리프,
+          그리고 알 수 없는 자신감으로 굴러가는 지하세계 락스타의 아지트입니다.
+        </p>
+      </div>
+
+      <div class="poster">
+        LIVE<br />
+        IN THE<br />
+        BASEMENT
+      </div>
+    </div>
+  </section>
+
+  <section id="rules">
+    <div class="grid">
+      <div class="fan-card">
+        <h3>01. 소음은 미덕</h3>
+        <p>좋은 음악은 옆방에서 항의가 들어올 때 완성됩니다.</p>
+      </div>
+
+      <div class="fan-card">
+        <h3>02. 팬심은 과격하게</h3>
+        <p>얌전한 좋아요보다 과몰입 댓글 하나가 더 진심입니다.</p>
+      </div>
+
+      <div class="fan-card">
+        <h3>03. 소리 질러~~~</h3>
+        <p>둥둥둥둥둥둥둥(베이스 소리)</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="guestbook">
     <div class="split">
       <div>
         <h2>지하세계<br />실시간 채팅방</h2>
         <p>
           닉네임을 저장하고 메시지를 보내면 모든 방문자에게 실시간으로 표시됩니다.
-          엔터를 누르면 바로 전송되고, Shift + Enter는 줄바꿈입니다.
+          엔터를 누르면 전송되고, Shift + Enter는 줄바꿈입니다.
         </p>
       </div>
 
@@ -666,9 +730,7 @@
         return;
       }
 
-      if (!message) {
-        return;
-      }
+      if (!message) return;
 
       if (message.length > 500) {
         alert("메시지는 500자 이하로 입력해주세요.");
@@ -687,14 +749,12 @@
         messageInput.focus();
       } catch (error) {
         console.error("메시지 저장 오류:", error);
-        alert("메시지 저장에 실패했습니다. Firestore 설정을 확인해주세요.");
+        alert("메시지 저장에 실패했습니다. Firestore Rules를 확인해주세요.");
       }
     };
 
     function formatTime(timestamp) {
-      if (!timestamp || !timestamp.toDate) {
-        return "방금 전";
-      }
+      if (!timestamp || !timestamp.toDate) return "방금 전";
 
       return timestamp.toDate().toLocaleTimeString("ko-KR", {
         hour: "2-digit",
@@ -702,29 +762,29 @@
       });
     }
 
-   function renderMessages(snapshot) {
-  const chatBox = document.getElementById("chatMessages");
+    function renderMessages(snapshot) {
+      const chatBox = document.getElementById("chatMessages");
 
-  if (snapshot.empty) {
-    chatBox.innerHTML = `<div class="system-msg">아직 메시지가 없습니다. 첫 채팅을 남겨주세요.</div>`;
-    return;
-  }
+      if (snapshot.empty) {
+        chatBox.innerHTML = `<div class="system-msg">아직 메시지가 없습니다. 첫 채팅을 남겨주세요.</div>`;
+        return;
+      }
 
-  chatBox.innerHTML = snapshot.docs.map((doc) => {
-    const item = doc.data();
-    const isMine = item.userId === myUserId;
+      chatBox.innerHTML = snapshot.docs.map((doc) => {
+        const item = doc.data();
+        const isMine = item.userId === myUserId;
 
-    return `
-      <div class="message-row ${isMine ? "mine" : "other"}">
-        <div class="sender">${escapeHTML(item.nickname || "익명")}</div>
-        <div class="bubble">${escapeHTML(item.message || "")}</div>
-        <div class="time">${formatTime(item.createdAt)}</div>
-      </div>
-    `;
-  }).join("");
+        return `
+          <div class="message-row ${isMine ? "mine" : "other"}">
+            <div class="sender">${escapeHTML(item.nickname || "익명")}</div>
+            <div class="bubble">${escapeHTML(item.message || "")}</div>
+            <div class="time">${formatTime(item.createdAt)}</div>
+          </div>
+        `;
+      }).join("");
 
-  chatBox.scrollTop = chatBox.scrollHeight;
-}
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
 
     const q = query(
       messagesRef,
@@ -734,7 +794,6 @@
 
     onSnapshot(q, renderMessages, (error) => {
       console.error("채팅 불러오기 오류:", error);
-
       document.getElementById("chatMessages").innerHTML = `
         <div class="system-msg">
           채팅을 불러오지 못했습니다. Firestore Rules를 확인해주세요.
